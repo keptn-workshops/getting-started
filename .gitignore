@@ -3,7 +3,6 @@
 
 # locally clones application repos
 repositories/
-keptn/
 reference/
 installer/
 dynatrace-service/

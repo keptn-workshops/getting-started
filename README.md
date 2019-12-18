@@ -156,9 +156,6 @@ application running in that stage. Each change made to the configuration will be
    keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
    keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
    
-   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-   
    keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
    ```
    
@@ -174,6 +171,7 @@ application running in that stage. Each change made to the configuration will be
    ```
    
    As the deployment runs you can watch the progress
+   
    **a) through the keptns bridge**
    ![](images/keptn_bridge_events.png)
    
@@ -221,6 +219,22 @@ As a result, the new artifact will not be promoted into the `production` stage.
 Additionally, the traffic routing within the `staging` stage will be automatically 
 updated in order to send requests to the previous version of the service. 
 
+
+## Optional: Try to modify your SLOs
+
+TODO
+
+## Optional: Install notification-service
+
+You can use the [notification-service](https://github.com/keptn-contrib/notification-service) to always stay informed about what is going on with your Keptn projects.
+To install it, execute the following commands (you will receive the `SLACK_URL` during the workshop - please ask an instructor):
+
+```
+cd keptn
+./installNotificationService.sh <SLACK_URL>
+```
+
+After the service has been installed, you will be able to view all Keptn Events in the Slack Workspace we have prepared for this HOT Day (please ask the instructors for an invite Link to join the channel)
 
 ## Self-healing in action
 
