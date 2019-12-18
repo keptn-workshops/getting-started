@@ -8,25 +8,33 @@ In this workshop, you will get hands-on experience with the open source framewor
 
 ## 1. Accounts
 
-1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial) and created a PaaS and API token.  See details in the [keptn docs](https://keptn.sh/docs/0.4.0/monitoring/dynatrace/)
-1. GitHub - Assumes you have a github account and a personal access token with the persmissions keptn expects. See details in the [keptn docs](https://keptn.sh/docs/0.4.0/installation/setup-keptn-gke/)
-1. Cloud provider account.  Highly recommend to sign up for personal free trial as to have full admin rights and to not cause any issues with your enterprise account. Links to free trials
-   * [Google](https://cloud.google.com/free/)
-   * [Azure](https://azure.microsoft.com/en-us/free/)
+1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial). You will get your Dynatrace Tenant credentials during the workshop.
+1. GitHub Account (optional)
+1. GKE Cluster - you will get the access information during the workshop
 
-## 2. Github Org
 
-Keptn expects all the code repos and project files to be in the same GitHub Organization. So create a github new github organization for the keptn-orders for Keptn to use and for the keptn-orders application repos to be forked.  See details in the [github docs](https://github.com/organizations/new)
+## 2. Git Repo (optional, but recommended)
+Keptn installs its own Git. In order to modify SLIs & SLOs that are managed by keptn we will define a remote git upstream. Feel free to use GitHub, GitLab, Bitbucket or any other Git service. What you need are these 3 things
+1. **GIT_REMOTE_URL**: Create a Remote Git Hub Repo that includes a Readme.md
+2. **GIT_USER**: Your git user to login
+3. **GIT_TOKEN**: A token for your git that allows keptn to push updates to that repo
 
-Suggested gihub organization name: ```<your last name>-keptn-hackfest-<cloud provider>``` for example ```bacher-keptn-hackfest-gcloud```
+You can create the GitHub Token as follows:
 
-NOTE: If the 'orders-project' repo already exists in your personal github org, there may be errors when you onboard again.  So delete the repo if it exists.
+![](images/github_repo_create.png)
 
-## 3. Tools
+## 3. Dynatrace Token
+This example shows keptn quality gates based on Dynatrace metrics using the new [Dynatrace Metrics v2 API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
+Hence you need Dynatrace that instruments the services you want to validate SLOs against. In order for keptn to automate that validation we need two things:
+1. **Dynatrace URL**: Thats e.g: https://abc12345.dynatrace.live.com (for SaaS) or your https://managedservice/e/yourenvioronment (for Managed)
+2. **Dynatrace API Token**: Please create a Dynatrace API token with access to timeseries as well as read & write configuration (for my advanced service metric SLIs)
+3. **Dynatrace PAAS API Token**: Please create a Dynatrace PaaS token which will be used to rollout the OneAgent on your EKS cluster
 
-In this workshop we are going to use a pre-built Docker image that already has the required tools installed. The only requirement is that you have Docker installed on your machine. You can install it using the instructions on the [Docker Homepage](https://docs.docker.com/install/)
+## 4. Tools
 
-# Provision Cluster, Install Keptn, and onboard the Carts application
+On the bastion host you are using during the workshop, all required tools (i.e. **kubectl** and **keptn**) are already installed
+
+## Environment Setup
 
 Now it's time to set up your workshop environment. During the setup, you will need the following values. We recommend to copy the following lines into an editor, fill them out and keep them as a reference for later:
 
@@ -38,235 +46,163 @@ GitHub User Name:
 GitHub Personal Access Token:
 GitHub User Email:
 GitHub Organization:
-========Azure Only=========
-Azure Subscription ID:
-Azure Location: francecentral
-========GKE Only===========
-Google Project:
-Google Cluster Zone: us-east1-b
-Google Cluster Region: us-east1
 ```
 
-The **Azure Subscription ID** can be found in your [Azure console](https://portal.azure.com/?quickstart=true#blade/Microsoft_Azure_Billing/SubscriptionsBlade):
+### Install Keptn
 
-<img src="images/azure_subscription.png" width="500"/>
-
-The **Google Project** can be found at the top bar of your [GCP Console](https://console.cloud.google.com):
-
-<img src="images/gcloud_project.png" width="500"/>
-
-
-To start the docker container you will use for this workshop, please execute:
+This will install the Keptn control plane and uniform components into your cluster.  The install will take 5-10 minutes to perform.
+To start the installation, please execute
 
 ```
-docker run -d -t bacherfl/keptn-demo
+keptn install --platform=gke --keptn-version=release-0.6.0.beta2
 ```
 
-Afterwards, you can SSH into this container. First, retrieve the `CONTAINER_ID` of the `keptn-demo` container:
+### Install Dynatrace
+To install Dynatrace, we will use the `dynatrace-service` that can be installed as an add-on for Keptn. This service will do the following things:
+
+    - Deploy the Dynatrace OneAgent to gain monitoring insights for your entire cluster
+    - Create Auto-Tagging rules which will be used by Keptn
+    - Set up customized problem notifications that can be sent to and interpreted by Keptn.
+    - Automatically create Management Zones for your Keptn projects
+    - Automatically create Dashboards for your Keptn projects
+    
+To perform correctly, the dynatrace-service requires the **Dynatrace Tenant**, the **API Token**, and the **PaaS Token**. To store these attributes in the cluster as a Kubernetes secret, 
+perform the following command after replacing the placeholders for :
 
 ```
-docker ps
+kubectl -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=<DT_API_TOKEN_PLACEHOLDER>" --from-literal="DT_TENANT=<DT_TENANT_PLACEHOLDER>" --from-literal="DT_PAAS_TOKEN=<DT_PAAS_TOKEN_PLACEHOLDER>"
 ```
 
-Then, use that ID to SSH into the container:
+When the secret has been created successfully, you can install the dynatrace-service:
 
 ```
-docker exec -it <CONTAINER_ID> /bin/sh -c "[ -e /bin/bash ] && /bin/bash || /bin/sh"
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/master/deploy/manifests/dynatrace-service/dynatrace-service.yaml
 ```
 
-When you are in the container, you need to log in to your PaaS account (GCP or AKS):
-
-  - If you are using **GCP**, execute `gcloud init`
-  - On **Azure**, execute `az login`
-
-when is is done, navigate into the `scripts` folder:
+When the service has been created, wait until the `dynatrace-sercvice` pod in the `keptn` namespace has the status `Running`:
 
 ```
-cd scripts
+$ kubectl get pods -n keptn -w |grep dynatrace
+dynatrace-service-67bc686bc-vtpnx                                 1/1     Running   0          46h
+dynatrace-service-distributor-6d6d6c5478-krcws                    1/1     Running   0          47h
 ```
 
-Here you will find multiple scripts used for the setup and they must be run the right order.  Just run the setup script that will prompt you with menu choices.
-```
-./setup.sh <deployment type>
-```
-NOTE: Valid 'deployment type' argument values are:
-* gke = Google
-* aks = Azure
-
-The setup menu should look like this:
-```
-====================================================
-SETUP MENU for Azure AKS
-====================================================
-1)  Enter Installation Script Inputs
-2)  Provision Kubernetes cluster
-3)  Install Keptn
-4)  Install Dynatrace
-5)  Expose Keptn's Bridge
-----------------------------------------------------
-99) Delete Kubernetes cluster
-====================================================
-Please enter your choice or <q> or <return> to exit
-```
-
-## 1) Enter Installation Script Inputs
-
-Before you do this step, be prepared with your github credentials, dynatrace tokens, and cloud provider project information available.
-
-This will prompt you for values that are referenced in the remaining setup scripts. Inputted values are stored in ```creds.json``` file. For example on GKE the menus looks like:
+Afterwards, execute the command 
 
 ```
-===================================================================
-Please enter the values for provider type: Google GKE:
-===================================================================
-Dynatrace Host Name (e.g. abc12345.live.dynatrace.com)
-                                       (current: DYNATRACE_HOSTNAME_PLACEHOLDER) : 
-Dynatrace API Token                    (current: DYNATRACE_API_TOKEN_PLACEHOLDER) : 
-Dynatrace PaaS Token                   (current: DYNATRACE_PAAS_TOKEN_PLACEHOLDER) : 
-GitHub User Name                       (current: GITHUB_USER_NAME_PLACEHOLDER) : 
-GitHub Personal Access Token           (current: PERSONAL_ACCESS_TOKEN_PLACEHOLDER) : 
-GitHub User Email                      (current: GITHUB_USER_EMAIL_PLACEHOLDER) : 
-GitHub Organization                    (current: GITHUB_ORG_PLACEHOLDER) : 
-Google Project                         (current: GKE_PROJECT_PLACEHOLDER) : 
-Cluster Name                           (current: CLUSTER_NAME_PLACEHOLDER) : 
-Cluster Zone (eg.us-east1-b)           (current: CLUSTER_ZONE_PLACEHOLDER) : 
-Cluster Region (eg.us-east1)           (current: CLUSTER_REGION_PLACEHOLDER) :
+keptn configure monitoring dynatrace
 ```
 
-## 2) Provision Kubernetes cluster
+This will instruct the dynatrace service to install the Dynatrace OneAgent on your cluster. Now your cluster is monitored by Dynatrace!
 
-This will provision a Cluster on the specified cloud deployment type using the platforms CLI. This script will take several minutes to run and you can verify the cluster was created with the the cloud provider console.
+### Install Dynatrace SLI Service
 
-The cluster will take 5-10 minutes to provision.
+During the workshop we will use quality gates to ensure only artifacts that meet our performance requirements are pushed through to production.
+We will retrieve the relevant Service Level Indicator values via the Dynatrace SLI Service that grabs those values from the new Dynatrace metrics API.
+To install the service, use `kubectl` to deploy it into your cluster:
 
-This script at the end will run the 'Validate Kubectl' script.  
-
-## 3) Install Keptn
-
-This will install the Keptn control plane components into your cluster.  The install will take 5-10 minutes to perform.
-
-NOTE: Internally, this script will perform the following:
-1. clone https://github.com/keptn/installer.  This repo has the cred.sav templates for building a creds.json file that the keptn CLI can use as an argument
-1. use the values we already captured in the ```2-enterInstallationScriptInputs.sh``` script to create the creds.json file
-1. run the ```keptn install -c=creds.json --platform=<Cluster>``` 
-1. run the 'Show Keptn' helper script
-
-
-## 4) Install Dynatrace
-This will install the Dynatrace OneAgent Operator into your cluster.  The install will take 3-5 minutes to perform.
-
-NOTE: Internally, this script will perform the following:
-1. clone https://github.com/keptn/dynatrace-service.  This repo has scripts for each platform to install the Dyntrace OneAgent Operator and the cred_dt.sav template for building a creds_dt.json file that the install script expects to read
-1. use the values we already captured in the ```1-enterInstallationScriptInputs.sh``` script to create the creds_dt.json file
-1. run the ```/deploy/scripts/deployDynatraceOn<Platform>.sh``` script in the dynatrace-service folder
-1. run the 'Show Dynatrace' helper script
-
+```
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.2.0/deploy/service.yaml
+kubectl apply -f https://github.com/keptn-contrib/dynatrace-sli-service/raw/0.2.0/deploy/distributor.yaml
+```
 
 ## 5)  Expose Keptn's Bridge
 
-The [keptn’s bridge](https://keptn.sh/docs/0.4.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
+The [keptn’s bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
 
 <img src="images/bridge-empty.png" width="500"/>
 
-In the default installation of Keptn, the bridge is only accessible via `kubectl port-forward`. To make things easier for workshop participants, we will expose it by creating a oublic URL for this component.
+In the default installation of Keptn, the bridge is only accessible via `kubectl port-forward`. To make things easier for workshop participants, we will expose it by creating a public URL for this component.
 
-# Onboarding the carts service
+```
+cd keptn
+./exposeBridge.sh
+```
+You should now be able to access the Keptns Bridge via the URL shown in the exposeBridge.sh output
+![](images/expose_bridge.png)
 
-Now that your environment is up and running and monitored by Dynatrace, you can proceed with onboarding the carts application into your cluster.
+
+# Onboarding the simplenode service
+
+Now that your environment is up and running and monitored by Dynatrace, you can proceed with onboarding the simplenode application into your cluster.
 To do so, please follow these instructions:
 
-1. Quit the setup script you were using to setup the infrastructure.
-1. Navigate to the workshop directory:
+1. First, we will create a new project called **simpleproject** that will contain our **simplenode** service. Using the **shipyard.yaml** file, we will define our stages (dev, staging, production) we want to use for this project:
 
-  ```
-  cd /usr/keptn/keptn-hackfest2019
-  ```
-1. Go to https://github.com/keptn-sockshop/carts and click on the **Fork** button on the top right corner.
+    ```
+    keptn create project simpleproject --shipyard=./shipyard.yaml
+    ```
 
-  1. Select the GitHub organization you use for keptn.
+1. At this point, the project does not contain any deployable services yet. Therefore, we now have to onboard our **simplenode** service:
 
-  1. Clone the forked carts service to your local machine. Please note that you have to use your own GitHub organization.
+    ```
+    keptn onboard service simplenode --project=simpleproject --chart=./simplenode
+    ```
+   
+1. Now the service is onboarded, and you can view the configuration files that Keptn has generated in your GitHub repository that you have set up earlier. For each stage we have defined in our shipyard.yaml, there will be a branch that holds the configuration for the 
+application running in that stage. Each change made to the configuration will be made through a git commit, which will make it easy to track every change that has been done to the configuration!
 
-  ```
-  git clone https://github.com/your-github-org/carts.git
-  ```
+1. At this point, it is time to set up our test files (we will use jmeter for testing), and our Service Level Objectives. After all, we do not want to blindly send artifacts into production, but want to ensure that our performance criteria are met:
 
+   ```
+   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+   
+   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+   
+   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+   
+   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
+   ```
+   
+1. Now, we will tell Keptn to use the **dynatrace-sli-service** as a value provider for our Service Level Indicators. We will do this using a ConfigMap:
 
-1. Change into the `keptn-onboarding` directory:
+   ```
+   kubectl apply -f lighthouse-config.yaml
+   ```
+1. We are now ready and can run a new deployment
+   
+   ```
+   keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=1.0.0
+   ```
+   
+   As the deployment runs you can watch the progress
+   **a) through the keptns bridge**
+   ![](images/keptn_bridge_events.png)
+   
+   **b) through Dynatrace events**
+   The Dynatrace Service has pushed events to those -Dynatrace Service entities that match the keptn_project, keptn_service, keptn_stage and keptn_deployment tags:
+   ![](images/dynatrace_events.png)
 
-```
-cd keptn-onboarding
-```
+# View the simplenode service
 
-1. Create the `sockshop` project:
-
-```
-keptn create project sockshop shipyard.yaml
-```
-
-This will create a configuration repository in your github repository. This repository will contain a branch for each of the stages defined in the shipyard file, in order to store the desired configuration of the application within that stage.
-
-1. Since the `sockshop` project does not contain any services yet, it is time to onboard a service into the project. In this workshop, we will use a simple microservice that emulates the behavior of a shopping cart. This service is written in Java Spring and uses a mongoDB database to store data. To onboard the `carts` service, execute the following command:
-
-```
-keptn onboard service --project=sockshop --values=values_carts.yaml
-```
-
-To deploy the database, execute:
-
-```
-keptn onboard service --project=sockshop --values=values_carts_db.yaml --deployment=deployment_carts_db.yaml --service=service_carts_db.yaml
-```
-
-Now, your configuration repository contains all the information needed to deploy your application and even supports blue/green deployments for two of the environments (staging and production)!
-
-# Deploying the carts service
-
-To deploy the service into your cluster, you can use the keptn CLI to trigger a new deployment. To do so, please execute the following command on your machine:
-
-```
-keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.1
-```
-
-This will inform keptn about the availability of a new artifact (`keptnexamples/carts:0.10.1`). As a result, keptn will trigger a multi-stage deployment of that service. During the deployment of the service, a number of various different services that are responsible for different tasks are involved, such as:
-
-  - **helm-service**: This service checks out the configuration repository and deploys the service using `helm`.
-  - **jmeter-service**: Responsible for running jmeter tests which are specified in the code repository of the `carts` service.
-  - **lighthouse-service**: Evaluates performance test runs, if quality gates are enabled (more on that later).
-  - **gatekeeper-service**: Decides wether an artifact should be promoted into the next stage (e.g. from dev to staging), or if an artifact should be rejected.
-
-To gain an overview of all services involved in the deployment/release of the service, you can use the **keptn's bridge**, which you have set up earlier.
-
-# View the carts service
-
-To make the carts service accesible from outside the cluster, and to support blue/green deployments, keptn automaticalliy creates Istio VirtualServices that direct requests to certain URLs to the correct service instance. You can retrieve the URLs for the carts service for each stage as follows:
+To make the simplenode service accesible from outside the cluster, and to support blue/green deployments, keptn automaticalliy creates Istio VirtualServices that direct requests to certain URLs to the correct service instance. You can retrieve the URLs for the simplenode service for each stage as follows:
 
 ```
-echo http://carts.sockshop-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-echo http://carts.sockshop-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+echo http://simplenode.simpleproject-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-Navigate to the URLs to inspect your carts service. In the production namespace, you should receive an output similar to this:
+Navigate to the URLs to inspect your simplenode service. In the production namespace, you should receive an output similar to this:
 
-<img src="images/carts-production.png" width="500"/>
+<img src="images/simplenode-production.png" width="500"/>
 
-# Introducing quality gates
 
-TODO
+## Deployment of a slow implementation of the simplenode service
 
-## Deployment of a slow implementation of the carts service
-
-To demonstrate the benefits of having quality gates, we will now deploy a version of the carts service with a terribly slow response time. To trigger the deployment of this version, please execute the following command on your machine:
+To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with a terribly slow response time. To trigger the deployment of this version, please execute the following command on your machine:
 
 ```
-keptn send event new-artifact --project=sockshop --service=carts --image=docker.io/keptnexamples/carts --tag=0.10.2
+keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/keptnexamples/simplenode --tag=0.10.2
 ```
 
-After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you used to create the `sockshop` project, you will see that in this stage, only functional tests are executed. This means that even though version has a slow response time, it will be promoted into the `staging` environment, because it is working as expected on a functional level. You can verify the deployment of the new version into `staging` by navigating to the URL of the service in your browser using the following URL:
+After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you used to create the `simpleproject` project, you will see that in this stage, only functional tests are executed. This means that even though version has a slow response time, it will be promoted into the `staging` environment, because it is working as expected on a functional level. You can verify the deployment of the new version into `staging` by navigating to the URL of the service in your browser using the following URL:
 
 ```
-echo http://carts.sockshop-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
 On the info homepage of the service, the **Version** should now be set to **v2**, and the **Delay in ms** value should be set to **1000**. (Note that it can take a few minutes until this version is deployed after sending the `new-artifact` event.)
