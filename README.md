@@ -222,7 +222,10 @@ updated in order to send requests to the previous version of the service.
 
 ## Optional: Try to modify your SLOs
 
-TODO
+To become more familiar with the definition of Service Level Objectives, try to modify the SLIs defined in the **slo.yaml** file.
+For example, you can either change the values, add additional criteria for certain SLIs, or you can add your own SLIs! As a reference,
+you can use the documentation found in the [Keptn Spec repo](https://github.com/keptn/spec/blob/0.1.1/sre.md#service-level-objectives-(slo)),
+or feel free to ask our instructors!
 
 ## Optional: Install notification-service
 
