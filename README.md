@@ -227,6 +227,19 @@ For example, you can either change the values, add additional criteria for certa
 you can use the documentation found in the [Keptn Spec repo](https://github.com/keptn/spec/blob/0.1.1/sre.md#service-level-objectives-(slo)),
 or feel free to ask our instructors!
 
+When you have edited your SLOs, use 
+
+```
+keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
+```
+
+to tell Keptn to use this new version of your **slo.yaml** for future evaluations.
+To see how the new SLOs affect the evaluation, trigger a new deployment with 
+
+```
+keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=1.0.0
+```
+
 ## Optional: Install notification-service
 
 You can use the [notification-service](https://github.com/keptn-contrib/notification-service) to always stay informed about what is going on with your Keptn projects.
