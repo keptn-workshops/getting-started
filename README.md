@@ -36,7 +36,12 @@ On the bastion host you are using during the workshop, all required tools (i.e. 
 
 ## Environment Setup
 
-Now it's time to set up your workshop environment. During the setup, you will need the following values. We recommend to copy the following lines into an editor, fill them out and keep them as a reference for later:
+## TODO: Explain how to access shellinabox and connect to GKE Cluster
+
+Now it's time to set up your workshop environment. 
+During the setup, you will need the following values. 
+We recommend to copy the following lines into an editor, 
+fill them out and keep them as a reference for later:
 
 ```
 Dynatrace Host Name (e.g. abc12345.live.dynatrace.com):
@@ -196,7 +201,7 @@ Navigate to the URLs to inspect your simplenode service. In the production names
 To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with a terribly slow response time. To trigger the deployment of this version, please execute the following command on your machine:
 
 ```
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/keptnexamples/simplenode --tag=0.10.2
+keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=2.0.0
 ```
 
 After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you used to create the `simpleproject` project, you will see that in this stage, only functional tests are executed. This means that even though version has a slow response time, it will be promoted into the `staging` environment, because it is working as expected on a functional level. You can verify the deployment of the new version into `staging` by navigating to the URL of the service in your browser using the following URL:
@@ -205,8 +210,29 @@ After some time, this new version will be deployed into the `dev` stage. If you 
 echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-On the info homepage of the service, the **Version** should now be set to **v2**, and the **Delay in ms** value should be set to **1000**. (Note that it can take a few minutes until this version is deployed after sending the `new-artifact` event.)
 
-As soon as this version has been deployed into the `staging` environment, the `jmeter-service` will execute the performance tests for this service. When those are finished, the `pitometer-service` will evaluate them using Dynatrace as a data source. At this point, it will detect that the response time of the service is too high and mark the evaluation of the performance tests as `failed`.
+As soon as this version has been deployed into the `staging` environment, 
+the `jmeter-service` will execute the performance tests for this service. 
+When those are finished, the `lighthouse-service` will evaluate them using 
+Dynatrace as a data source. At this point, it will detect that the response 
+time of the service is too high and mark the evaluation of the performance tests as `failed`.
 
-As a result, the new artifact will not be promoted into the `production` stage. Additionally, the traffic routing within the `staging` stage will be automatically updated in order to send requests to the previous version of the service. You can again verify that by navigating to the service homepage and inspecting the **Version** property. This should now be set to **v1** again.
+As a result, the new artifact will not be promoted into the `production` stage. 
+Additionally, the traffic routing within the `staging` stage will be automatically 
+updated in order to send requests to the previous version of the service. 
+
+
+## Self-healing in action
+
+Now it's time to deploy our next version of the simplenode service. In this version, the SLOs will be as required during the performance tests,
+but there is a hidden flag that causes the service to fail frequently while it is in production. This will be detected by Dynatrace, which will send a problem event to Keptn.
+Using our remediation.yaml file, we can tell Keptn how to automatically remediate problems of a certain type se we can keep the lights up in production.
+
+
+To deploy the new artifact, we once again use the keptn CLI to start the deployment process:
+
+```
+keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=4.0.0
+```
+
+TODO: traffic generation, problem detection, auto remediation

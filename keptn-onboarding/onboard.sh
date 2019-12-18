@@ -16,14 +16,14 @@ keptn add-resource --project=simpleproject --service=simplenode --stage=dev --re
 keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+#keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+#keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 
 # add SLO file
 keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
 
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo_self-healing_prometheus.yaml --resourceUri=slo.yaml
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
+#keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo_self-healing_prometheus.yaml --resourceUri=slo.yaml
+#keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
 
 
 
