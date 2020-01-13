@@ -22,9 +22,9 @@ keptn add-resource --project=simpleproject --service=simplenode --stage=staging 
 # add SLO file
 keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
 
-#keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo_self-healing_prometheus.yaml --resourceUri=slo.yaml
-#keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
+keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
 
 
 
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/grabnerandi/simplenodeservice --tag=1.0.0
+keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
