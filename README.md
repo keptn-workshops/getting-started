@@ -357,6 +357,14 @@ Service overview, and checking the events related to that service:
 
 ![](images/dt_service_events.png)
 
+We can also verify the remediation action by investigating the time series chart for the response time of our service. 
+In this chart you will se a decrease in response time starting at the moment where Keptn deployed the additional instances of our service:
+
+![](images/dt_problem_closed.png)
+
+
+
+
 
 
 

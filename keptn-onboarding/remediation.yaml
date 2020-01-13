@@ -1,0 +1,6 @@
+  
+remediations:
+- name: Response time degradation
+  actions:
+  - action: scaling
+    value: +2
