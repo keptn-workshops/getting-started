@@ -307,6 +307,11 @@ Next, select the section **Slowdown alert**, and set the time to wait before sen
 
 ![](images/default_alerting_profile.png)
 
+As a last configuration step, we will disable the Frequent Issue Detection to make the demo more reproducable. To do so, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**,
+and disable all switches found in this menu:
+
+![](images/disable-fid.png)
+
 ### Deploy a new version
 
 To deploy the new artifact, we once again use the keptn CLI to start the deployment process:
@@ -331,7 +336,7 @@ Here you should see a service instance containing the `primary` deployment of ou
 
 ![](images/service_primary.png)
 
-Select this service, and you will be directed to the overview screen. On this screen, click on the Respionse time button:
+Select this service, and you will be directed to the overview screen. On this screen, click on the Response time button:
 
 ![](images/service_overview.png)
 
