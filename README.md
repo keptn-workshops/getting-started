@@ -298,11 +298,6 @@ Within this menu, select the option **Detect response time degradations using fi
 
 ![](images/anomaly_detection.png)
 
-Next, we will edit the default alerting profile to send problem notifications to Keptn immediately after a problem has been detected. In your Dynatrace tenant, navigate to 
-**Settings -> Alerting Profiles**, and select the **Default** alerting profile:
-
-![](images/alerting_profiles.png)
-
 Next, select the section **Slowdown alert**, and set the time to wait before sending a notification to **0 minutes**. The remaining options can be left untouched. (see screenshot below).
 
 ![](images/default_alerting_profile.png)
