@@ -191,8 +191,7 @@ echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n
 
 Navigate to the URLs to inspect your simplenode service. In the production namespace, you should receive an output similar to this:
 
-<img src="images/simplenode-production.png" width="500"/>
-
+![](images/simplenode-production.png)
 
 ## Deployment of a slow implementation of the simplenode service
 
