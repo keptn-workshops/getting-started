@@ -139,7 +139,7 @@ To do so, please follow these instructions:
     keptn create project simpleproject --shipyard=./shipyard.yaml
     ```
 
-    <details><summary>**Optional:** Create a new project with Git upstream</summary>
+    <details><summary>*Optional:* Create a new project with Git upstream</summary>
     <p>
 
     To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](../../manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
