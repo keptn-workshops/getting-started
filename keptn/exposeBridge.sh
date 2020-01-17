@@ -10,6 +10,7 @@ echo ""
 DOMAIN=$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
 
 rm -f ./manifests/gen/bridge.yaml
+mkdir -p ./manifests/gen
 cat ./manifests/bridge.yaml | \
   sed 's~DOMAIN_PLACEHOLDER~'"$DOMAIN"'~' > ./manifests/gen/bridge.yaml
 
