@@ -134,9 +134,21 @@ To do so, please follow these instructions:
 
 1. First, we will create a new project called **simpleproject** that will contain our **simplenode** service. Using the **shipyard.yaml** file, we will define our stages (dev, staging, production) we want to use for this project:
 
-    ```
+    Create a new project without Git upstream:
+    ```console
     keptn create project simpleproject --shipyard=./shipyard.yaml
     ```
+
+    <details><summary>Optional: Create a new project with Git upstream</summary>
+    <p>
+
+    To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](../../manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
+
+    ```console
+    keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+    ```
+    </p>
+    </details>
 
 1. At this point, the project does not contain any deployable services yet. Therefore, we now have to onboard our **simplenode** service:
 
@@ -304,10 +316,6 @@ and go to *Settings -> Anomaly Detection -> Services*.
 Within this menu, select the option **Detect response time degradations using fixed thresholds**, set the limit to **1000ms**, and select **Medium** for the sensitivity (see the screenshot below).
 
 ![](images/anomaly_detection.png)
-
-Next, select the section **Slowdown alert**, and set the time to wait before sending a notification to **0 minutes**. The remaining options can be left untouched. (see screenshot below).
-
-![](images/default_alerting_profile.png)
 
 As a last configuration step, we will disable the Frequent Issue Detection to make the demo more reproducable. To do so, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**,
 and disable all switches found in this menu:
