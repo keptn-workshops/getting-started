@@ -309,10 +309,6 @@ Within this menu, select the option **Detect response time degradations using fi
 
 ![](images/anomaly_detection.png)
 
-Next, select the section **Slowdown alert**, and set the time to wait before sending a notification to **0 minutes**. The remaining options can be left untouched. (see screenshot below).
-
-![](images/default_alerting_profile.png)
-
 As a last configuration step, we will disable the Frequent Issue Detection to make the demo more reproducable. To do so, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**,
 and disable all switches found in this menu:
 
