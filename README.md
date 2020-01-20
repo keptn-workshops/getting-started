@@ -147,6 +147,14 @@ To do so, please follow these instructions:
 1. Now the service is onboarded, and you can view the configuration files that Keptn has generated in your GitHub repository that you have set up earlier. For each stage we have defined in our shipyard.yaml, there will be a branch that holds the configuration for the 
 application running in that stage. Each change made to the configuration will be made through a git commit, which will make it easy to track every change that has been done to the configuration!
 
+1. Now that the service has been onboarded, we can use Keptn to automatically generate a Dynatrace dashboard and management Zones for our project. To do so, execute
+
+```
+keptn configure monitoring dynatrace --project=simpleproject
+```
+
+Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_TENANT>/#dashboards
+
 1. At this point, it is time to set up our test files (we will use jmeter for testing), and our Service Level Objectives. After all, we do not want to blindly send artifacts into production, but want to ensure that our performance criteria are met:
 
    ```
