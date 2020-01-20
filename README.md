@@ -269,7 +269,7 @@ After the service has been installed, you will be able to view all Keptn Events 
 
 ## Self-healing in action
 
-Now it's time to deploy our next version of the simplenode service. In this version, the SLOs will be as required during the performance tests,
+Now it's time to deploy our next version of the simplenode service. This version meets all SLOs during the performance tests,
 but there is a hidden flag that causes the service to fail frequently while it is in production. This will be detected by Dynatrace, which will send a problem event to Keptn.
 Using our remediation.yaml file, we can tell Keptn how to automatically remediate problems of a certain type se we can keep the lights up in production.
 
