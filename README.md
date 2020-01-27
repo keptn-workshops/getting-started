@@ -121,6 +121,7 @@ In the default installation of Keptn, the bridge is only accessible via `kubectl
 ```
 cd keptn
 ./exposeBridge.sh
+cd ..
 ```
 You should now be able to access the Keptns Bridge via the URL shown in the exposeBridge.sh output
 ![](images/expose_bridge.png)
@@ -135,6 +136,7 @@ To do so, please follow these instructions:
 
     Create a new project without Git upstream:
     ```console
+    cd keptn-onboarding
     keptn create project simpleproject --shipyard=./shipyard.yaml
     ```
 
@@ -144,6 +146,7 @@ To do so, please follow these instructions:
     To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](../../manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
     ```console
+    cd keptn-onboarding
     keptn create project sockshop --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
     ```
     </p>
