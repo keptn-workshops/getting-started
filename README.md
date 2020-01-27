@@ -59,7 +59,7 @@ This will install the Keptn control plane and uniform components into your clust
 To start the installation, please execute
 
 ```
-keptn install --platform=gke --keptn-version=release-0.6.0.beta2
+keptn install --platform=gke
 ```
 
 ### Install Dynatrace
