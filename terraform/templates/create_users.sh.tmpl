@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+for num in {1..${num}}; do
+  export USER="${name}$${num}"
+
+  echo "USERS - Creating user $${USER}..."
+  useradd -m -s /bin/bash $${USER}
+  mv gcloud-keys/${prefix}-${name}-$${num}-${uuid}-key.json /home/$${USER}/
+  echo $${USER}:${pass} | sudo chpasswd
+
+  echo "USERS - Configuring cluster access for user $${USER}..."
+  sudo -u $${USER} -p ${pass} -H gcloud auth activate-service-account --key-file=/home/$${USER}/${prefix}-${name}-$${num}-${uuid}-key.json
+  sudo -u $${USER} -p ${pass} -H gcloud container clusters get-credentials ${prefix}-${cluster}-$${num}-${uuid} --zone ${zone} --project ${project}
+
+  echo "USERS - Completed setup for user $${USER}"
+done
+
+echo "USERS - All users complete"
