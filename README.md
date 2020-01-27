@@ -81,7 +81,7 @@ kubectl -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=<D
 When the secret has been created successfully, you can install the dynatrace-service:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/master/deploy/manifests/dynatrace-service/dynatrace-service.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.6.0/deploy/manifests/dynatrace-service/dynatrace-service.yaml
 ```
 
 When the service has been created, wait until the `dynatrace-sercvice` pod in the `keptn` namespace has the status `Running`:
@@ -107,8 +107,7 @@ We will retrieve the relevant Service Level Indicator values via the Dynatrace S
 To install the service, use `kubectl` to deploy it into your cluster:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.2.0/deploy/service.yaml
-kubectl apply -f https://github.com/keptn-contrib/dynatrace-sli-service/raw/0.2.0/deploy/distributor.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.0/deploy/service.yaml
 ```
 
 ## 5)  Expose Keptn's Bridge
