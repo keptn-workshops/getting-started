@@ -21,10 +21,22 @@ pipelines/gen/*.bak
 # any misc logs
 *.log
 
+## Terraform
+**/.terraform/*
+*.tfvars
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*tfplan*
+
 # any misc files part of install
 google-cloud-sdk*
 keptn-linux*
 linux-amd64/
 helm-*-linux-amd64.tar.gz
 *keptn-linux.tar*
-
+gcloud-keys/

@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+        Redirect permanent "/" "https://${PUBLIC_IP}/"
+
+        ErrorLog /var/log/apache2/error.log
+        CustomLog /var/log/apache2/access.log combined
+</VirtualHost>

@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+export DEBIAN_FRONTEND=noninteractive
+
+echo "Installing packages and dependencies..."
+apt-get install -y \
+  apache2 \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  git \
+  haveged \
+  jq \
+  nano \
+  nodejs \
+  npm \
+  screen \
+  shellinabox \
+  software-properties-common \
+  vim
+
+echo "Installing yq via snap..."
+snap install yq
+
+echo "Installing hub ${hub_release} from source..."
+wget https://github.com/github/hub/releases/download/v${hub_release}/hub-linux-amd64-${hub_release}.tgz
+tar -xzf hub-linux-amd64-${hub_release}.tgz
+cp hub-linux-amd64-${hub_release}/bin/hub /usr/local/bin/hub
+
+echo "Installing kubectl from Google APT repository..."
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+apt-get update
+apt-get install -y kubectl
+
+echo "Installing Keptn CLI ${keptn_release} from source..."
+wget https://github.com/keptn/keptn/releases/download/${keptn_release}/${keptn_release}_keptn-linux.tar
+tar xf ${keptn_release}_keptn-linux.tar
+cp keptn /usr/local/bin/keptn
+
+echo "Modifying SSHD configuration..."
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+sed -i 's/#MaxSessions 10/MaxSessions 150/' /etc/ssh/sshd_config
+systemctl restart sshd

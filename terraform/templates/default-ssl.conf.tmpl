@@ -1,0 +1,51 @@
+<IfModule mod_ssl.c>
+        <VirtualHost _default_:443>
+                ServerAdmin university@dynatrace.com
+                ServerName ${PUBLIC_IP}
+                DocumentRoot /var/www/html
+                ErrorLog /var/log/apache2/error.log
+                CustomLog /var/log/apache2/access.log combined
+                SSLEngine on
+                SSLCertificateFile /etc/ssl/certs/bastion-selfsigned.cert
+                SSLCertificateKeyFile /etc/ssl/private/bastion-selfsigned.key
+
+                ProxyVia On
+                ProxyRequests Off
+                ProxyPreserveHost On
+
+                <FilesMatch "\.(cgi|shtml|phtml|php)$">
+                                SSLOptions +StdEnvVars
+                </FilesMatch>
+
+                <Directory /usr/lib/cgi-bin>
+                                SSLOptions +StdEnvVars
+                </Directory>
+                <Location />
+                        #AuthType Basic
+                        #AuthName "Welcome to the domain.org Etherpad"
+                        #AuthUserFile /path/to/svn.passwd
+                        #AuthGroupFile /path/to/svn.group
+                        #Require group etherpad
+                        ProxyPass http://localhost:9001/ retry=0 timeout=30
+                        ProxyPassReverse http://localhost:9001/
+                </Location>
+                <Location /socket.io>
+                        RewriteEngine On
+                        RewriteCond %%{QUERY_STRING} transport=websocket    [NC]
+                        RewriteRule /(.*) ws://localhost:9001/socket.io/$1 [P,L]
+                        ProxyPass http://localhost:9001/socket.io retry=0 timeout=30
+                        ProxyPassReverse http://localhost:9001/socket.io
+                </Location>
+                <Location /shell>
+                        ProxyPass  http://localhost:4200/
+                        Order      allow,deny
+                        Allow      from all
+                </Location>
+                <Proxy *>
+                        Options FollowSymLinks MultiViews
+                        AllowOverride All
+                        Order allow,deny
+                        allow from all
+                </Proxy>
+        </VirtualHost>
+</IfModule>
