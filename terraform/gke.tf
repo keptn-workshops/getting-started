@@ -28,7 +28,7 @@ resource "local_file" "perform_user_key" {
 resource "google_project_iam_member" "perform_user" {
   count = length(google_service_account.perform_user.*.email)
 
-  role     = "roles/container.developer"
+  role     = "roles/container.admin"
   member   = "serviceAccount:${google_service_account.perform_user[count.index].email}"
 }
 
