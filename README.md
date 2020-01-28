@@ -36,7 +36,15 @@ On the bastion host you are using during the workshop, all required tools (i.e. 
 
 ## Environment Setup
 
-## TODO: Explain how to access shellinabox and connect to GKE Cluster
+For this lab, We have set up a Bastion host for each participant. This host has all required CLI tools (e.g. kubectl and keptn) installed,
+so you don't have to install it on your machine. To log in on the bastion host via your web browser, please follow the instructions of the lab instructors.
+
+When you have logged in, the first thing to do is to check out the workshop repository from GitHub. To do so, please execute the following command on the bastion host:
+
+```
+git clone https://github.com/keptn-workshops/getting-started
+cd getting-started
+```
 
 Now it's time to set up your workshop environment. 
 During the setup, you will need the following values. 
@@ -119,7 +127,7 @@ The [Keptn’s bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) prov
 In the default installation of Keptn, the bridge is only accessible via `kubectl port-forward`. To make things easier for workshop participants, we will expose it by creating a public URL for this component.
 
 ```
-cd keptn
+cd ~/getting-started/keptn
 ./exposeBridge.sh
 cd ..
 ```
@@ -139,7 +147,7 @@ To do so, please follow these instructions:
     To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
     ```console
-    cd keptn-onboarding
+    cd ~/getting-started/keptn-onboarding
     keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
     ```    
     </p>
@@ -178,7 +186,7 @@ application running in that stage. Each change made to the configuration will be
 
    ```
    keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/load.jmx
    
    keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
    keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
@@ -276,7 +284,7 @@ You can use the [notification-service](https://github.com/keptn-contrib/notifica
 To install it, execute the following commands (you will receive the `SLACK_URL` during the workshop - please ask an instructor):
 
 ```
-cd keptn
+cd ~/getting-started/keptn
 ./installNotificationService.sh <SLACK_URL>
 ```
 
@@ -305,7 +313,7 @@ of replicas running our service. In this case, we will increase the replica coun
 the configuration for our service. This can be done using the following command:
 
 ```
-cd keptn-onboarding
+cd ~/getting-started/keptn-onboarding
 keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
 ```
 
@@ -341,7 +349,7 @@ After the new artifact has been deployed into production, we will generate some 
 in your shell:
 
 ```
-cd load-generation/bin
+cd ~/getting-started/load-generation/bin
 ./loadgenerator-linux "http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')"/api/cpuload
 ```
 

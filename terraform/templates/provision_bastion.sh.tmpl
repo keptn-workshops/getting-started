@@ -3,7 +3,7 @@
 set -euo pipefail
 
 export DEBIAN_FRONTEND=noninteractive
-
+apt-get update
 echo "Installing packages and dependencies..."
 apt-get install -y \
   apache2 \
@@ -12,7 +12,6 @@ apt-get install -y \
   curl \
   git \
   haveged \
-  jq \
   nano \
   nodejs \
   npm \
@@ -21,8 +20,8 @@ apt-get install -y \
   software-properties-common \
   vim
 
-echo "Installing yq via snap..."
-snap install yq
+#echo "Installing yq via snap..."
+#snap install yq
 
 echo "Installing hub ${hub_release} from source..."
 wget https://github.com/github/hub/releases/download/v${hub_release}/hub-linux-amd64-${hub_release}.tgz
