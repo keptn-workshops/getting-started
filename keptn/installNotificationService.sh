@@ -11,6 +11,6 @@ SLACK_URL=$1
 
 rm -f ./manifests/gen/notification-service.yaml
 cat ./manifests/notification-service.yaml | \
-  sed 's~SLACK_URL_PLACEHOLDER~'"$DOMAIN"'~' > ./manifests/gen/notification-service.yaml
+  sed 's~SLACK_URL_PLACEHOLDER~'"$SLACK_URL"'~' > ./manifests/gen/notification-service.yaml
 
 kubectl apply -f ./manifests/gen/notification-service.yaml

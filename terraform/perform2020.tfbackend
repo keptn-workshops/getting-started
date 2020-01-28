@@ -1,2 +1,2 @@
-bucket = "ace-tf-testing"
+bucket = "intro-keptn-hotday-2020"
 prefix = "terraform/state"

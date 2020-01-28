@@ -1,5 +1,6 @@
 variable "gcloud_project" {
   description = "Google Cloud Project where resources will be created"
+  default = "perform-vegas-hd-2020"
 }
 
 variable "gcloud_zone" {
