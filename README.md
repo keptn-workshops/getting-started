@@ -2,31 +2,31 @@
 Instructions for the HoT workshop "Intro to ACM with Keptn" given @Dynatrace Perform 2020
 
 # Overview
-In this workshop, you will get hands-on experience with the open source framework [keptn](https://keptn.sh), and see how it can help you to manage your cloud-native applications on Kubernetes
+In this workshop, you will get hands-on experience with the open-source framework [Keptn](https://keptn.sh), and see how it can help you to manage your cloud-native applications on Kubernetes.
 
 # Pre-requisites
 
 ## 1. Accounts
 
-1. Dynatrace - Assumes you will use a [trial SaaS dynatrace tenant](https://www.dynatrace.com/trial). You will get your Dynatrace Tenant credentials during the workshop.
-1. GitHub Account (optional)
+1. Dynatrace - Assumes you will use a [trial SaaS Dynatrace tenant](https://www.dynatrace.com/trial). You will get your Dynatrace Tenant credentials during the workshop.
+1. GitHub, GitLab, Bitbucket or any other Git service account (optional)
 1. GKE Cluster - you will get the access information during the workshop
 
 
 ## 2. Git Repo (optional, but recommended)
-Keptn installs its own Git. In order to modify SLIs & SLOs that are managed by keptn we will define a remote git upstream. Feel free to use GitHub, GitLab, Bitbucket or any other Git service. What you need are these 3 things
-1. **GIT_REMOTE_URL**: Create a Remote Git Hub Repo that includes a Readme.md
-2. **GIT_USER**: Your git user to login
-3. **GIT_TOKEN**: A token for your git that allows keptn to push updates to that repo
+Keptn installs its own Git repo. In order to modify SLIs & SLOs that are managed by Keptn, we will define a remote Git upstream. Feel free to use GitHub, GitLab, Bitbucket or any other Git service. What you need are these 3 things
+1. **GIT_REMOTE_URL**: Create a remote Git repo that includes a Readme.md
+2. **GIT_USER**: Your Git user to login
+3. **GIT_TOKEN**: A token for your Git that allows Keptn to push updates to that repo
 
-You can create the GitHub Token as follows:
+You can create the GitHub repo as follows:
 
 ![](images/github_repo_create.png)
 
 ## 3. Dynatrace Token
-This example shows keptn quality gates based on Dynatrace metrics using the new [Dynatrace Metrics v2 API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
-Hence you need Dynatrace that instruments the services you want to validate SLOs against. In order for keptn to automate that validation we need two things:
-1. **Dynatrace URL**: Thats e.g: https://abc12345.dynatrace.live.com (for SaaS) or your https://managedservice/e/yourenvioronment (for Managed)
+This example shows Keptn quality gates based on Dynatrace metrics using the new [Dynatrace Metrics v2 API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
+Hence, you need Dynatrace that instruments the services you want to validate SLOs against. In order for Keptn to automate that validation we need two things:
+1. **Dynatrace URL**: That's e.g: https://abc12345.dynatrace.live.com (for SaaS) or your https://managedservice/e/yourenvioronment (for Managed)
 2. **Dynatrace API Token**: Please create a Dynatrace API token with access to timeseries as well as read & write configuration (for my advanced service metric SLIs)
 3. **Dynatrace PAAS API Token**: Please create a Dynatrace PaaS token which will be used to rollout the OneAgent on your EKS cluster
 
@@ -84,7 +84,7 @@ When the secret has been created successfully, you can install the dynatrace-ser
 kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.6.0/deploy/manifests/dynatrace-service/dynatrace-service.yaml
 ```
 
-When the service has been created, wait until the `dynatrace-sercvice` pod in the `keptn` namespace has the status `Running`:
+When the service has been created, wait until the `dynatrace-service` pod in the `keptn` namespace has the status `Running`:
 
 ```
 $ kubectl get pods -n keptn -w |grep dynatrace
@@ -102,7 +102,7 @@ This will instruct the dynatrace service to install the Dynatrace OneAgent on yo
 
 ### Install Dynatrace SLI Service
 
-During the workshop we will use quality gates to ensure only artifacts that meet our performance requirements are pushed through to production.
+During the workshop, we will use quality gates to ensure only artifacts that meet our performance requirements are pushed through to production.
 We will retrieve the relevant Service Level Indicator values via the Dynatrace SLI Service that grabs those values from the new Dynatrace metrics API.
 To install the service, use `kubectl` to deploy it into your cluster:
 
@@ -112,7 +112,7 @@ kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-s
 
 ## 5)  Expose Keptn's Bridge
 
-The [keptn’s bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within keptn and to filter on a specific keptn context. When you access the keptn’s bridge, all keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
+The [Keptn’s bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within Keptn and to filter on a specific Keptn context. When you access the Keptn’s bridge, all Keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
 
 <img src="images/bridge-empty.png" width="500"/>
 
@@ -194,7 +194,7 @@ Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_
    
    As the deployment runs you can watch the progress
    
-   **a) through the keptns bridge**
+   **a) through the Keptn's bridge**
    ![](images/keptn_bridge_events.png)
    
    **b) through Dynatrace events**
@@ -203,7 +203,7 @@ Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_
 
 # View the simplenode service
 
-To make the simplenode service accesible from outside the cluster, and to support blue/green deployments, keptn automaticalliy creates Istio VirtualServices that direct requests to certain URLs to the correct service instance. You can retrieve the URLs for the simplenode service for each stage as follows:
+To make the simplenode service accessible from outside the cluster, and to support blue/green deployments, Keptn automatically creates Istio VirtualServices that direct requests to certain URLs to the correct service instance. You can retrieve the URLs for the simplenode service for each stage as follows:
 
 ```
 echo http://simplenode.simpleproject-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
@@ -225,7 +225,7 @@ keptn send event new-artifact --project=simpleproject --service=simplenode --ima
 
 After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you 
 used to create the `simpleproject` project, you will see that in this stage, only functional tests are executed. 
-This means that even though version has a slow response time, it will be promoted into the `staging` environment, 
+This means that even though the version has a slow response time, it will be promoted into the `staging` environment 
 because it is working as expected on a functional level. You can verify the deployment of the new version into `staging` 
 by navigating to the URL of the service in your browser using the following URL:
 
@@ -275,7 +275,7 @@ cd keptn
 ./installNotificationService.sh <SLACK_URL>
 ```
 
-After the service has been installed, you will be able to view all Keptn Events in the Slack Workspace we have prepared for this HOT Day (please ask the instructors for an invite Link to join the channel)
+After the service has been installed, you will be able to view all Keptn Events in the Slack Workspace we have prepared for this HOT Day (please ask the instructors for an invite link to join the channel)
 
 ## Self-healing in action
 
@@ -296,7 +296,7 @@ remediations:
 ```
 
 By using this file, Keptn will react to problems that cause a **Response time degradation** (that might be caused by an increasing load to our service) with scaling up the number
-of replicas running our service. In this case we will increase the replica count by 2 pods. To stay in line with the GitOps approach, we will store this file in the Git repository that holds
+of replicas running our service. In this case, we will increase the replica count by 2 pods. To stay in line with the GitOps approach, we will store this file in the Git repository that holds
 the configuration for our service. This can be done using the following command:
 
 ```
@@ -319,14 +319,14 @@ Within this menu, select the option **Detect response time degradations using fi
 
 ![](images/anomaly_detection.png)
 
-As a last configuration step, we will disable the Frequent Issue Detection to make the demo more reproducable. To do so, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**,
+As a last configuration step, we will disable the Frequent Issue Detection to make the demo more reproducible. To do so, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**,
 and disable all switches found in this menu:
 
 ![](images/disable-fid.png)
 
 ### Deploy a new version
 
-To deploy the new artifact, we once again use the keptn CLI to start the deployment process:
+To deploy the new artifact, we once again use the Keptn CLI to start the deployment process:
 
 ```
 keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=4.0.0
@@ -366,7 +366,7 @@ sent to Keptn, which will trigger a remediation action that we have defined in t
 ![](images/bridge_self_healing.png)
 
 As you can see in the screenshot, the problem event caused a remediation (scaling up the replicas of our service). After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an
-evaluation of the metrics in our `slo.yaml´ file. The evaluation of our service level objectives should be successful at this point, since the load is now split among three instances of our service.
+evaluation of the metrics in our `slo.yaml´ file. The evaluation of our service level objectives should be successful at this point since the load is now split among three instances of our service.
 Eventually, the Problem will also be closed in Dynatrace.
 
 In addition to automatically performing the remediation, Keptn also informs Dynatrace about the actions taken during this process. You can verify this by navigating to the 
@@ -375,7 +375,7 @@ Service overview, and checking the events related to that service:
 ![](images/dt_service_events.png)
 
 We can also verify the remediation action by investigating the time series chart for the response time of our service. 
-In this chart you will se a decrease in response time starting at the moment where Keptn deployed the additional instances of our service:
+In this chart you will see a decrease in response time starting at the moment where Keptn deployed the additional instances of our service:
 
 ![](images/dt_problem_closed.png)
 
