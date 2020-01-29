@@ -24,7 +24,7 @@ You can create the GitHub repo as follows:
 ![](images/github_repo_create.png)
 
 ## 3. Dynatrace Token
-This example shows Keptn quality gates based on Dynatrace metrics using the new [Dynatrace Metrics v2 API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
+This workshop shows Keptn quality gates based on Dynatrace metrics using the new [Dynatrace Metrics v2 API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
 Hence, you need Dynatrace that instruments the services you want to validate SLOs against. In order for Keptn to automate that validation we need two things:
 1. **Dynatrace URL**: That's e.g: https://abc12345.dynatrace.live.com (for SaaS) or your https://managedservice/e/yourenvioronment (for Managed)
 2. **Dynatrace API Token**: Please create a Dynatrace API token with access to timeseries as well as read & write configuration (for my advanced service metric SLIs)
@@ -75,12 +75,12 @@ To install Dynatrace, we will use the `dynatrace-service` that can be installed 
 
     - Deploy the Dynatrace OneAgent to gain monitoring insights for your entire cluster
     - Create Auto-Tagging rules which will be used by Keptn
-    - Set up customized problem notifications that can be sent to and interpreted by Keptn.
+    - Set up customized problem notifications that can be sent to and interpreted by Keptn
     - Automatically create Management Zones for your Keptn projects
     - Automatically create Dashboards for your Keptn projects
     
 To perform correctly, the dynatrace-service requires the **Dynatrace Tenant**, the **API Token**, and the **PaaS Token**. To store these attributes in the cluster as a Kubernetes secret, 
-perform the following command after replacing the placeholders for :
+perform the following command after replacing the placeholders:
 
 ```
 kubectl -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=<DT_API_TOKEN_PLACEHOLDER>" --from-literal="DT_TENANT=<DT_TENANT_PLACEHOLDER>" --from-literal="DT_PAAS_TOKEN=<DT_PAAS_TOKEN_PLACEHOLDER>"
@@ -120,7 +120,7 @@ kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-s
 
 ## 5)  Expose Keptn's Bridge
 
-The [Keptn’s bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within Keptn and to filter on a specific Keptn context. When you access the Keptn’s bridge, all Keptn entry points will be listed in the left column. Please note that this list only represents the start of a deployment of a new artifact and, thus, more information on the executed steps can be revealed when you click on one event.
+The [Keptn’s bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within Keptn. When you access the Keptn’s bridge, all deployments of a new artifact will be listed in the left column. All events belonging to the deployment of an artifact can then be revealed by click on one event.
 
 <img src="images/bridge-empty.png" width="500"/>
 
@@ -142,20 +142,25 @@ To do so, please follow these instructions:
 
 1. First, we will create a new project called **simpleproject** that will contain our **simplenode** service. Using the **shipyard.yaml** file, we will define our stages (dev, staging, production) we want to use for this project:
 
-    Create a new project without Git upstream:
-    ```console
-    cd ~/getting-started/keptn-onboarding
-    keptn create project simpleproject --shipyard=./shipyard.yaml
-    ```
-
-    <details><summary>Optional: Create a new project with Git upstream</summary>
+    <details><summary>Option A: Create a new project with Git upstream</summary>
     <p>
-
-    To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](../../manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
+    To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
 
     ```console
     cd ~/getting-started/keptn-onboarding
     keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+    ```    
+    </p>
+    </details>
+    
+
+    <details><summary>Option B: Create a new project without Git upstream</summary>
+    <p>
+    Create a new project without Git upstream:
+
+    ```console
+    cd keptn-onboarding
+    keptn create project simpleproject --shipyard=./shipyard.yaml
     ```
     </p>
     </details>
@@ -166,16 +171,16 @@ To do so, please follow these instructions:
     keptn onboard service simplenode --project=simpleproject --chart=./simplenode
     ```
    
-1. Now the service is onboarded, and you can view the configuration files that Keptn has generated in your GitHub repository that you have set up earlier. For each stage we have defined in our shipyard.yaml, there will be a branch that holds the configuration for the 
+1. Now the service is onboarded and if you have set a Git upstream, you can view the configuration files that Keptn has generated in your Git repository. For each stage we have defined in our shipyard.yaml, there will be a branch that holds the configuration for the 
 application running in that stage. Each change made to the configuration will be made through a git commit, which will make it easy to track every change that has been done to the configuration!
 
 1. Now that the service has been onboarded, we can use Keptn to automatically generate a Dynatrace dashboard and management Zones for our project. To do so, execute
 
-```
-keptn configure monitoring dynatrace --project=simpleproject
-```
+    ```
+    keptn configure monitoring dynatrace --project=simpleproject
+    ```
 
-Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_TENANT>/#dashboards
+    Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_TENANT>/#dashboards
 
 1. At this point, it is time to set up our test files (we will use jmeter for testing), and our Service Level Objectives. After all, we do not want to blindly send artifacts into production, but want to ensure that our performance criteria are met:
 
@@ -194,7 +199,7 @@ Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_
    ```
    kubectl apply -f lighthouse-config.yaml
    ```
-1. We are now ready and can run a new deployment
+1. We are now ready and can run our first deployment
    
    ```
    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
@@ -206,7 +211,7 @@ Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_
    ![](images/keptn_bridge_events.png)
    
    **b) through Dynatrace events**
-   The Dynatrace Service has pushed events to those -Dynatrace Service entities that match the keptn_project, keptn_service, keptn_stage and keptn_deployment tags:
+   The Dynatrace Service has pushed events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage` and `keptn_deployment` tags:
    ![](images/dynatrace_events.png)
 
 # View the simplenode service
