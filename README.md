@@ -11,131 +11,210 @@ In this workshop, you will get hands-on experience with the open source framewor
 
 ## 1. Accounts
 
-1. **Dynatrace** - Assumes you will use a [trial SaaS Dynatrace tenant](https://www.dynatrace.com/trial). You will get your Dynatrace Tenant credentials during the workshop.
-1. **GitHub, GitLab, Bitbucket or any other Git service account** (optional)
-1. **GKE Cluster** - you will get the access information during the workshop
+1. **GKE Cluster** - You will get the access information during the workshop.
+1. **GitHub, GitLab, or Bitbucket** - Please use your personal account.
+1. **Dynatrace** - You will get your Dynatrace Tenant credentials during the workshop.
 
-
-## 2. Git Repo (optional, but recommended)
-Keptn installs its own Git repo. In order to modify SLIs & SLOs that are managed by Keptn, we will define a remote Git upstream. Feel free to use GitHub, GitLab, Bitbucket or any other Git service. What you need are these 3 things
-1. **GIT_REMOTE_URL**: Create a remote Git repo that includes a Readme.md
-2. **GIT_USER**: Your Git user to login
-3. **GIT_TOKEN**: A token for your Git that allows Keptn to push updates to that repo
-
-You can create the GitHub repo as follows:
-
-![](images/github_repo_create.png)
-
-## 3. Dynatrace Token
-This workshop shows Keptn quality gates based on Dynatrace metrics using the new [Dynatrace Metrics v2 API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
-Hence, you need Dynatrace that instruments the services you want to validate SLOs against. In order for Keptn to automate that validation we need two things:
-1. **Dynatrace URL**: That's e.g: https://abc12345.dynatrace.live.com (for SaaS) or your https://managedservice/e/yourenvioronment (for Managed)
-2. **Dynatrace API Token**: Please create a Dynatrace API token with access to timeseries as well as read & write configuration (for my advanced service metric SLIs)
-3. **Dynatrace PAAS API Token**: Please create a Dynatrace PaaS token which will be used to rollout the OneAgent on your EKS cluster
-
-## 4. Tools
-
-On the bastion host you are using during the workshop, all required tools (i.e. **kubectl** and **keptn**) are already installed
-
-## Environment Setup
-
-For this lab, We have set up a Bastion host for each participant. This host has all required CLI tools (e.g. kubectl and keptn) installed,
-so you don't have to install it on your machine. To log in on the bastion host via your web browser, please follow the instructions of the lab instructors.
-
-When you have logged in, the first thing to do is to check out the workshop repository from GitHub. To do so, please execute the following command on the bastion host:
-
+During the **Setup**, you will need Git and Dynatrace tokens.
+We recommend to copy the following lines into an editor and fill them out while working through
+pre-requisites:
 ```
-git clone https://github.com/keptn-workshops/getting-started
-cd getting-started
+Git remote repo-URL:
+Git user:
+Git token:
+
+Dynatrace Tenant URL: 
+Dynatrace API token:
+Dynatrace PaaS token:
 ```
 
-Now it's time to set up your workshop environment. 
-During the setup, you will need the following values. 
-We recommend to copy the following lines into an editor, 
-fill them out and keep them as a reference for later:
+## 2. Git Repo
+Keptn installs its own Git repo for storing the configuration. In order to
+read and modify the configuration (e.g., Helm charts, SLIs, SLOs),
+Keptn requires a remote Git upstream.
+Feel free to use GitHub, GitLab, or Bitbucket.
 
-```
-Dynatrace Host Name (e.g. abc12345.live.dynatrace.com):
-Dynatrace API Token:
-Dynatrace PaaS Token:
-GitHub User Name:
-GitHub Personal Access Token:
-GitHub User Email:
-GitHub Organization:
-```
+For obtaining the required *remote repo-URL*, *user*, and *token*, 
+please follow the instructions depending on your provider.
 
-### Install Keptn
+<details><summary>GitHub</summary>
+<p>
 
-This will install the Keptn control plane and uniform components into your cluster.  The install will take 5-10 minutes to perform.
-To start the installation, please execute
+1. If you do not have a GitHub user, create a user by [signing up](https://github.com/join?source=header-home). 
 
-```
-keptn install --platform=gke
-```
+1. Create a [personal access token](https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line) for your user with *repo* scope:
 
-### Install Dynatrace
-To install Dynatrace, we will use the `dynatrace-service` that can be installed as an add-on for Keptn. This service will do the following things:
+    <img src="images/github_access_token.png" width="600px"/>
 
-    - Deploy the Dynatrace OneAgent to gain monitoring insights for your entire cluster
-    - Create Auto-Tagging rules which will be used by Keptn
-    - Set up customized problem notifications that can be sent to and interpreted by Keptn
-    - Automatically create Management Zones for your Keptn projects
-    - Automatically create Dashboards for your Keptn projects
+1. (optional) If you want to use a dedicated GitHub organization for your repository, create a [GitHub organization](https://github.com/organizations/new).
+
+1. Go to your account or your GitHub organization and create a [GitHub repository](https://help.github.com/en/articles/create-a-repo).
+
+    **Note:** Click the **Initialize this repository with a README** checkbox to initialize the repository, which is a prerequisite.
+
+    <img src="images/github_create_repo.png" width="600px"/>
+
+</p>
+</details>
+
+
+<details><summary>GitLab</summary>
+<p>
+
+1. If you do not have a GitLab user, create a user by [signing up for a free trial](https://customers.gitlab.com/trials/new?gl_com=true). 
+
+1. Create a [personal access token](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) for your user with *write_repo* scope:
+
+    <img src="images/gitlab_access_token.png" width="600px"/>
+
+1. Go to your account and create a [GitLab project](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
+
+    **Note:** Click the **Initialize this repository with a README** checkbox to initialize the repository, which is a prerequisite.
+
+    <img src="images/gitlab_create_project.png" width="600px"/>
     
-To perform correctly, the dynatrace-service requires the **Dynatrace Tenant**, the **API Token**, and the **PaaS Token**. To store these attributes in the cluster as a Kubernetes secret, 
-perform the following command after replacing the placeholders:
+</p>
+</details>
 
-```
-kubectl -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=<DT_API_TOKEN_PLACEHOLDER>" --from-literal="DT_TENANT=<DT_TENANT_PLACEHOLDER>" --from-literal="DT_PAAS_TOKEN=<DT_PAAS_TOKEN_PLACEHOLDER>"
-```
+<details><summary>Bitbucket</summary>
+<p>
 
-When the secret has been created successfully, you can install the dynatrace-service:
+1. If you do not have a Bitbucket user, create a user by [signing up for a free trial](https://bitbucket.org/account/signup/). 
 
-```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.6.0/deploy/manifests/dynatrace-service/dynatrace-service.yaml
-```
+1. Create an [app password](https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html) for your user with *Write* permissions. Therefore, select your User > **View profile** > **Settings** > **App passwords** > **Create app password**
 
-When the service has been created, wait until the `dynatrace-service` pod in the `keptn` namespace has the status `Running`:
+    <img src="images/bitbucket_access_token.png" width="600px"/>
 
-```
-$ kubectl get pods -n keptn -w |grep dynatrace
-dynatrace-service-67bc686bc-vtpnx                                 1/1     Running   0          46h
-dynatrace-service-distributor-6d6d6c5478-krcws                    1/1     Running   0          47h
-```
+1. Go to your account and create a [Bitbucket repository](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
 
-Afterwards, execute the command 
+    **Note:** Select *Include a README?* - **Yes, with a template** to initialize the repository, which is a prerequisite.
 
-```
-keptn configure monitoring dynatrace
-```
+    <img src="images/bitbucket_create_repo.png" width="600px"/>
 
-This will instruct the dynatrace service to install the Dynatrace OneAgent on your cluster. Now your cluster is monitored by Dynatrace!
+</p>
+</details>
 
-### Install Dynatrace SLI Service
+## 3. Dynatrace Tokens
+This workshop explores Keptn's quality gates using metrics from Dynatrace.
+In order to query the metrics, Keptn requires access to the Dynatrace API.
+Therefore, please follow the instructions:
+
+1. Create a Dynatrace API token
+
+    Log in to your Dynatrace tenant and go to **Settings > Integration > Dynatrace API**. Then, create a new API token with the following permissions:
+
+    - Access problem and event feed, metrics and topology
+    - Access logs
+    - Configure maintenance windows
+    - Read configuration
+    - Write configuration
+    - Capture request data
+    - Real user monitoring JavaScript tag management
+
+    <img src="images/dt_api_token.png" width="500px"/>
+
+1. Create a Dynatrace PaaS token
+
+    Log in to your Dynatrace tenant, go to **Settings > Integration > Platform as a Service** and create a new PaaS token.
+
+# Setup
+
+## 1. Login on your Bastion host
+For this lab, we have set up a Bastion host for each participant. 
+This host has all required CLI tools (e.g. **kubectl** and **keptn**) installed,
+so you don't have to install it on your machine. 
+
+1. To log in on the Bastion host via your web browser, please follow the instructions provided by the lab instructors.
+
+## 2. Check out the workshop repository
+
+1. Please check out the workshop repository from GitHub by  
+executing the following command on the Bastion host:
+
+    ```
+    git clone https://github.com/keptn-workshops/getting-started
+    cd getting-started
+    ```
+
+## 3. Install Keptn
+
+1. Install the Keptn control plane into your GKE cluster by executing the following command:
+
+    ```
+    keptn install --platform=gke
+    ```
+The installation will take 5-10 minutes to perform.
+
+## 4. Enable Dynatrace Monitoring
+For enabling Dynatrace monitoring, we will utilize the so-called `dynatrace-service`, which 
+can be installed as an add-on for Keptn.
+This service will 
+- deploy the *Dynatrace OneAgent* to gain monitoring insights for your entire cluster,
+- create *Auto-Tagging* rules which will be used by Keptn,
+- set up customized *Problem notifications* that are sent to Keptn,
+- create *Management zones* for your Keptn projects, and
+- create *Dashboards* for your Keptn projects.
+    
+1. The `dynatrace-service` requires the **Dynatrace Tenant**, the **API Token**, and the **PaaS Token**
+as a Kubernetes secret.
+To create this secret, execute the following command after replacing the placeholders `<DT_API_TOKEN_PLACEHOLDER>`,
+`<DT_TENANT_PLACEHOLDER>`, and `<DT_PAAS_TOKEN_PLACEHOLDER>` with your credentials:
+
+    ```
+    kubectl -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=<DT_API_TOKEN_PLACEHOLDER>" --from-literal="DT_TENANT=<DT_TENANT_PLACEHOLDER>" --from-literal="DT_PAAS_TOKEN=<DT_PAAS_TOKEN_PLACEHOLDER>"
+    ```
+
+1. Install the `dynatrace-service` in your cluster by executing the following command:
+
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.6.0/deploy/manifests/dynatrace-service/dynatrace-service.yaml
+    ```
+
+1. After installing the `dynatrace-service`, wait until the `dynatrace-service` pod in the `keptn` namespace has the status `Running`:
+
+    ```
+    $ kubectl get pods -n keptn -w |grep dynatrace
+    dynatrace-service-67bc686bc-vtpnx                                 1/1     Running   0          46h
+    dynatrace-service-distributor-6d6d6c5478-krcws                    1/1     Running   0          47h
+    ```
+
+1. Instruct the `dynatrace-service` to install monitoring in your cluster by executing the following command:
+
+    ```
+    keptn configure monitoring dynatrace
+    ```
+
+## 5. Install Dynatrace SLI Service
 
 During the workshop, we will use quality gates to ensure only artifacts that meet our performance requirements are pushed through to production.
-We will retrieve the relevant Service Level Indicator values via the Dynatrace SLI Service that grabs those values from the new Dynatrace metrics API.
-To install the service, use `kubectl` to deploy it into your cluster:
+A Keptn service called `dynatrace-sli-service` 
+will retrieve the relevant *Service Level Indicators* (SLIs) from the new [Dynatrace Metrics API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
 
-```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.0/deploy/service.yaml
-```
+1. Install the `dynatrace-sli-service` in your cluster by executing the following command:
 
-## 5)  Expose Keptn's Bridge
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.0/deploy/service.yaml
+    ```
 
-The [Keptn’s bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/) provides an easy way to browse all events that are sent within Keptn. When you access the Keptn’s bridge, all deployments of a new artifact will be listed in the left column. All events belonging to the deployment of an artifact can then be revealed by click on one event.
+## 6. Expose Keptn's Bridge
 
-<img src="images/bridge-empty.png" width="500"/>
+The [Keptn’s Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#early-access-version-of-keptn-s-bridge) provides 
+an overview of projects, services and all events that are sent within Keptn.
+<!-- When you access the Keptn’s bridge, all deployments of a new artifact will be listed in the left column. All events belonging to the deployment of an artifact can then be shown by clicking on one event. -->
 
-In the default installation of Keptn, the bridge is only accessible via `kubectl port-forward`. To make things easier for workshop participants, we will expose it by creating a public URL for this component.
+<img src="images/bridge_eap.png" width="600px"/>
 
-```
-cd ~/getting-started/keptn
-./exposeBridge.sh
-cd ..
-```
-You should now be able to access the Keptns Bridge via the URL shown in the exposeBridge.sh output
-![](images/expose_bridge.png)
+1. In the default installation of Keptn, the Bridge is not accessible via a public URL because
+it may contain sensitive information. 
+But for the purpose of this workshop, expose the Bridge by excuting the following command:
+
+    ```
+    cd ~/getting-started/keptn
+    ./exposeBridge.sh
+    cd ..
+    ```
+    You should now be able to access the Keptns Bridge via the URL shown in the exposeBridge.sh output
+    ![](images/expose_bridge.png)
 
 
 # Hands-on Labs
