@@ -1,10 +1,16 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-At this point, we the simplenode service deployed for the first time. 
+At this point, the simplenode service has been deployed for the first time and the quality gate for staging has been activated by providing an SLO file for *staging*.
 
-# Excercise 3: Deployment of a slow implementation of the Simplenode service
+# Excercise 3: Exploring Keptn's Quality Gates
 
-To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with a terribly slow response time. 
+1. In this exercise, deploy a version of the **simplenode** service that has a slower response time compared to the previous version. Since we have activated the quality gate, we expect that the weaker performance gets detected and the service will not be promoted to production.  
+
+1. Finally, we again deploy the previous version of the **simplenode** service expecting a passed through by the quality gate.
+
+## Deployment of a SLOW implementation of the Simplenode service
+
+To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with terribly slow response time. 
 
 * To trigger the deployment of this version, please execute the following command on your machine:
 
@@ -12,7 +18,7 @@ To demonstrate the benefits of having quality gates, we will now deploy a versio
 keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=2.0.0
 ```
 
-## Behaviour in Dev - Promotion from Dev to Staging
+### Promotion from Dev to Staging
 
 After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you used to create the `simpleproject` project, you will see that in this stage, only functional tests are executed. 
 
@@ -24,16 +30,18 @@ This means that even though the version has a slow response time, it will be pro
 echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-## Quality Gate detects Performance leak - NO Promotion to Production!
+### Keptn's Quality Gate detects Performance leak - NO Promotion to Production!
 
-As soon as this version has been deployed into the `staging` environment, 
-thest performance tests for this service are executed. When those are finished, Keptn will evaluate them using Dynatrace as a data source. 
+As soon as this version has been deployed into the `staging` environment, these performance tests for this service are executed. When those are finished, Keptn will evaluate them using Dynatrace as a data source. 
 
 :boom: At this point, it will detect that the response time of the service is too high and mark the evaluation of the performance tests as `failed`.
 
-As a result, the new artifact will not be promoted into the `production` stage. Additionally, the traffic routing within the `staging` stage will be automatically updated in order to send requests to the previous version of the service. 
+As a result, the new artifact will not be promoted into the `production` stage. Additionally, the traffic routing within the `staging` stage will be automatically updated to send requests to the previous version of the service. 
 
-## Deploy again the previous good version 
+## Deployment of the previous Simplenode service 
+
+
+* Finally, deploy the previous version of the **simplenode** service, which has to pass the quality gate:
 
 ```
 keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
@@ -41,7 +49,7 @@ keptn send event new-artifact --project=simpleproject --service=simplenode --ima
 
 # Result
 
-Production is safe, with the Quality Gate in the staging stage. We have seen that a service version with a bad performance will not be promoted to the production stage. 
+Production is safe, with **Keptn's Quality Gate** in place. We have seen that a service with a bad performance will not be promoted to the production stage. 
 
 ---
 
