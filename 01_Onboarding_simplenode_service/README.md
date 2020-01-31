@@ -1,41 +1,61 @@
-# Onboarding the simplenode service
+**Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-Now that your environment is up and running and monitored by Dynatrace, you can proceed with onboarding the simplenode application into your cluster.
-To do so, please follow these instructions:
+At this point, we should have our initial setup complete. We should have a GKE cluster that is monitored by Dynatrace, and the full complement of Keptn services. 
 
-1. First, we will create a new project called **simpleproject** that will contain our **simplenode** service. Using the **shipyard.yaml** file, we will define our stages (dev, staging, production) we want to use for this project:
+# Excercise 1: Onboarding the Simplenode service
 
-    <details><summary>Option A: Create a new project with Git upstream</summary>
-    <p>
-    To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
+1. In this exercise, we will create a Keptn project, which is a structural element that allows organizing your services. A project is stored as a repository and contains branches representing the multi-stage environment (e.g., dev, staging, and production stage). In other words, the separation of stage configurations is based on repository branches. To describe the stages, a `shipyard.yaml` file is needed that specifies the name, deployment strategy, test strategy, and remediation strategy.
 
-    ```console
-    cd ~/getting-started/keptn-onboarding
-    keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
-    ```    
-    </p>
-    </details>
+2. After creating a project, the Keptn CLI allows creating new Keptn-managed services (i.e., to *onboard* services into Keptn). The onboarded services are organized in the before created project.
+
+## Create project Simpleproject 
+
+For creating a project, this exercise relies on the `shipyard.yaml` file as shown below. This file is available on your Bastion host.
+
+```yaml
+stages:
+  - name: "dev"
+    deployment_strategy: "direct"
+    test_strategy: "functional"
+  - name: "staging"
+    deployment_strategy: "blue_green_service"
+    test_strategy: "performance"
+  - name: "production"
+    deployment_strategy: "blue_green_service"
+    remediation_strategy: "automated"
+```
+
+* Make sure that you are in the correct folder on your bastion host: 
+
+```console
+cd ~/getting-started/keptn-onboarding
+```
+
+* Execute the following command to create the project based on the `shipyard.yaml` file: 
+
+```console
+keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+```    
     
+## Onboard service Simplenode
 
-    <details><summary>Option B: Create a new project without Git upstream</summary>
-    <p>
-    Create a new project without Git upstream:
+At this point, the project does not contain any deployable service yet. 
 
-    ```console
-    cd keptn-onboarding
-    keptn create project simpleproject --shipyard=./shipyard.yaml
-    ```
-    </p>
-    </details>
+* Execute the following command to onboard the **simplenode** service to your project: 
 
-1. At this point, the project does not contain any deployable services yet. Therefore, we now have to onboard our **simplenode** service:
+```
+keptn onboard service simplenode --project=simpleproject --chart=./simplenode
+```
 
-    ```
-    keptn onboard service simplenode --project=simpleproject --chart=./simplenode
-    ```
-   
-1. Now the service is onboarded and if you have set a Git upstream, you can view the configuration files that Keptn has generated in your Git repository. For each stage we have defined in our shipyard.yaml, there will be a branch that holds the configuration for the 
-application running in that stage. Each change made to the configuration will be made through a git commit, which will make it easy to track every change that has been done to the configuration!
+## Result
+
+Now, a project is created and the **simplenode** service is onboarded. 
+
+:mag: Let's check out the configuration files that Keptn has generated in your Git repository. > **Go to your Git repository**.
+
+:heavy_check_mark: For each stage we have defined in our `shipyard.yaml`, there will be a branch that holds the configuration for the application running in that stage. 
+
+:heavy_check_mark: Each change made to the configuration will be made through a git commit, which will make it easy to track every change that has been done to the configuration.
 
 ---
 
