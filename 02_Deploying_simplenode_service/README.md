@@ -1,6 +1,6 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-At this point, we have a Keptn project created and the **simplenode** service onboarded to the project.
+At this point, we have a Keptn project created and the simplenode service onboarded to the project.
 
 # Excercise 2: Deploying the Simplenode service
 
@@ -16,7 +16,7 @@ We can use Keptn to automatically generate a Dynatrace dashboard and management 
 
 * To create a Dynatrace **Dashboard** and **Management zones**, execute:
 
-```
+```console
 keptn configure monitoring dynatrace --project=simpleproject
 ```
 
@@ -34,7 +34,7 @@ cd ~/getting-started/keptn-onboarding
 
 * To active **functional tests** in *dev* stage, execute: 
 
-```
+```console
 keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 ```
 <!--
@@ -50,7 +50,7 @@ keptn add-resource --project=simpleproject --service=simplenode --stage=staging 
 -->
 
 * To active **load tests** in *staging* stage, execute: 
-```
+```console
 keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 ```
 
@@ -60,13 +60,13 @@ After all, we do not want to blindly send artifacts into production but want to 
 
 * To add the **SLO** file to the **staging** stage: 
 
-```
+```console
 keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
 ```
 
 * Now, we will tell Keptn to use the **dynatrace-sli-service** as a value provider for our Service Level Indicators. We will do this using a ConfigMap:
 
-```
+```console
 kubectl apply -f lighthouse-config.yaml
 ```
 
@@ -74,7 +74,7 @@ kubectl apply -f lighthouse-config.yaml
 
 * We are now ready and can run our first deployment of the **simplenode** service. Therefore, execute the following command:
    
-```
+```console
 keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
 ```
    
@@ -84,6 +84,7 @@ keptn send event new-artifact --project=simpleproject --service=simplenode --ima
 ![](../images/keptn_bridge_events.png)
 
 **b) Dynatrace**
+
 Keptn pushes events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage` and `keptn_deployment` tags:
 ![](../images/dynatrace_events.png)
 
@@ -92,17 +93,17 @@ Keptn pushes events to those Dynatrace Service entities that match the `keptn_pr
 After a couple of minutes, the **simplenode** is deployed in your K8s cluster. You can retrieve the URLs for the simplenode service for each stage as follows:
 
 :heavy_check_mark: Dev stage: 
-```
+```console
 echo http://simplenode.simpleproject-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
 :heavy_check_mark: Staging stage: 
-```
+```console
 echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
 :heavy_check_mark: Production stage: 
-```
+```console
 echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
