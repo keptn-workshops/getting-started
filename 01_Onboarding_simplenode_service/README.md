@@ -25,7 +25,7 @@ stages:
     remediation_strategy: "automated"
 ```
 
-* Make sure that you are in the correct folder on your bastion host: 
+* Please make sure that you are in the correct folder on your bastion host: 
 
 ```console
 cd ~/getting-started/keptn-onboarding
