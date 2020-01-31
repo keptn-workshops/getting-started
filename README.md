@@ -1,16 +1,19 @@
-# keptn-hotday2020
-Instructions for the HoT workshop "Intro to ACM with Keptn" given @Dynatrace Perform 2020
+<img src="images/perform_logo.png" width="100%"/>
+
+**Introduction to Autonomous Cloud with Keptn** workshop given @Dynatrace Perform 2020
 
 # Overview
-In this workshop, you will get hands-on experience with the open-source framework [Keptn](https://keptn.sh), and see how it can help you to manage your cloud-native applications on Kubernetes.
+In this workshop, you will get hands-on experience with the open source framework [keptn](https://keptn.sh) and see how it can help you to manage your cloud-native applications on Kubernetes.
+
+1. For a great workshop experience, we ask you to keep track of your completed tasks. Therefore, please open this [spreadsheet](https://docs.google.com/spreadsheets/d/1V1sRCdVdSlwzbYCTfcRKIAfkDw0lLckGpSREGlW3khM/edit?usp=sharing) and enter your name.
 
 # Pre-requisites
 
 ## 1. Accounts
 
-1. Dynatrace - Assumes you will use a [trial SaaS Dynatrace tenant](https://www.dynatrace.com/trial). You will get your Dynatrace Tenant credentials during the workshop.
-1. GitHub, GitLab, Bitbucket or any other Git service account (optional)
-1. GKE Cluster - you will get the access information during the workshop
+1. **Dynatrace** - Assumes you will use a [trial SaaS Dynatrace tenant](https://www.dynatrace.com/trial). You will get your Dynatrace Tenant credentials during the workshop.
+1. **GitHub, GitLab, Bitbucket or any other Git service account** (optional)
+1. **GKE Cluster** - you will get the access information during the workshop
 
 
 ## 2. Git Repo (optional, but recommended)
@@ -135,267 +138,19 @@ You should now be able to access the Keptns Bridge via the URL shown in the expo
 ![](images/expose_bridge.png)
 
 
-# Onboarding the simplenode service
+# Hands-on Labs
 
-Now that your environment is up and running and monitored by Dynatrace, you can proceed with onboarding the simplenode application into your cluster.
-To do so, please follow these instructions:
+After installing Keptn, we are now ready to explore to execute the following hands-on labs. They are based on each other, why it is important to complete the according to this order:
 
-1. First, we will create a new project called **simpleproject** that will contain our **simplenode** service. Using the **shipyard.yaml** file, we will define our stages (dev, staging, production) we want to use for this project:
+1. Onboarding the simplenode service: [Lab](./01_Onboarding_simplenode_service)
+1. Deploying the simplenode service: [Lab](./02_Deploying_simplenode_service)
+1. Exploring quality gates: [Lab](./03_Exploring_quality_gates)
+1. Optional: Automatic remediation: [Lab](./04_Automatic_remediation)
 
-    <details><summary>Option A: Create a new project with Git upstream</summary>
-    <p>
-    To configure a Git upstream for this workshop, the Git user (`--git-user`), an access token (`--git-token`), and the remote URL (`--git-remote-url`) are required. If a requirement is not met, go to [select Git-based upstream](https://keptn.sh/docs/0.6.0/manage/project/#select-git-based-upstream) where instructions for GitHub, GitLab, and Bitbucket are provided.
+# Keptn Community
 
-    ```console
-    cd ~/getting-started/keptn-onboarding
-    keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
-    ```    
-    </p>
-    </details>
-    
+Join the Keptn community!
 
-    <details><summary>Option B: Create a new project without Git upstream</summary>
-    <p>
-    Create a new project without Git upstream:
+Further information about Keptn can be found on the [keptn.sh](keptn.sh) website. Keptn itself lives on [GitHub](https://github.com/keptn/keptn).
 
-    ```console
-    cd keptn-onboarding
-    keptn create project simpleproject --shipyard=./shipyard.yaml
-    ```
-    </p>
-    </details>
-
-1. At this point, the project does not contain any deployable services yet. Therefore, we now have to onboard our **simplenode** service:
-
-    ```
-    keptn onboard service simplenode --project=simpleproject --chart=./simplenode
-    ```
-   
-1. Now the service is onboarded and if you have set a Git upstream, you can view the configuration files that Keptn has generated in your Git repository. For each stage we have defined in our shipyard.yaml, there will be a branch that holds the configuration for the 
-application running in that stage. Each change made to the configuration will be made through a git commit, which will make it easy to track every change that has been done to the configuration!
-
-1. Now that the service has been onboarded, we can use Keptn to automatically generate a Dynatrace dashboard and management Zones for our project. To do so, execute
-
-    ```
-    keptn configure monitoring dynatrace --project=simpleproject
-    ```
-
-    Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_TENANT>/#dashboards
-
-1. At this point, it is time to set up our test files (we will use jmeter for testing), and our Service Level Objectives. After all, we do not want to blindly send artifacts into production, but want to ensure that our performance criteria are met:
-
-   ```
-   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/load.jmx
-   
-   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-   
-   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
-   ```
-   
-1. Now, we will tell Keptn to use the **dynatrace-sli-service** as a value provider for our Service Level Indicators. We will do this using a ConfigMap:
-
-   ```
-   kubectl apply -f lighthouse-config.yaml
-   ```
-1. We are now ready and can run our first deployment
-   
-   ```
-   keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
-   ```
-   
-   As the deployment runs you can watch the progress
-   
-   **a) through the Keptn's bridge**
-   ![](images/keptn_bridge_events.png)
-   
-   **b) through Dynatrace events**
-   The Dynatrace Service has pushed events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage` and `keptn_deployment` tags:
-   ![](images/dynatrace_events.png)
-
-# View the simplenode service
-
-To make the simplenode service accessible from outside the cluster, and to support blue/green deployments, Keptn automatically creates Istio VirtualServices that direct requests to certain URLs to the correct service instance. You can retrieve the URLs for the simplenode service for each stage as follows:
-
-```
-echo http://simplenode.simpleproject-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
-
-Navigate to the URLs to inspect your simplenode service. In the production namespace, you should receive an output similar to this:
-
-![](images/simplenode-production.png)
-
-## Deployment of a slow implementation of the simplenode service
-
-To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with a terribly slow response time. To trigger the deployment of this version, please execute the following command on your machine:
-
-```
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=2.0.0
-```
-
-After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you 
-used to create the `simpleproject` project, you will see that in this stage, only functional tests are executed. 
-This means that even though the version has a slow response time, it will be promoted into the `staging` environment 
-because it is working as expected on a functional level. You can verify the deployment of the new version into `staging` 
-by navigating to the URL of the service in your browser using the following URL:
-
-```
-echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
-
-
-As soon as this version has been deployed into the `staging` environment, 
-the `jmeter-service` will execute the performance tests for this service. 
-When those are finished, the `lighthouse-service` will evaluate them using 
-Dynatrace as a data source. At this point, it will detect that the response 
-time of the service is too high and mark the evaluation of the performance tests as `failed`.
-
-As a result, the new artifact will not be promoted into the `production` stage. 
-Additionally, the traffic routing within the `staging` stage will be automatically 
-updated in order to send requests to the previous version of the service. 
-
-
-## Optional: Try to modify your SLOs
-
-To become more familiar with the definition of Service Level Objectives, try to modify the SLIs defined in the **slo.yaml** file.
-For example, you can either change the values, add additional criteria for certain SLIs, or you can add your own SLIs! As a reference,
-you can use the documentation found in the [Keptn Spec repo](https://github.com/keptn/spec/blob/0.1.1/sre.md#service-level-objectives-(slo)),
-or feel free to ask our instructors!
-
-When you have edited your SLOs, use 
-
-```
-keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
-```
-
-to tell Keptn to use this new version of your **slo.yaml** for future evaluations.
-To see how the new SLOs affect the evaluation, trigger a new deployment with 
-
-```
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
-```
-
-## Optional: Install notification-service
-
-You can use the [notification-service](https://github.com/keptn-contrib/notification-service) to always stay informed about what is going on with your Keptn projects.
-To install it, execute the following commands (you will receive the `SLACK_URL` during the workshop - please ask an instructor):
-
-```
-cd ~/getting-started/keptn
-./installNotificationService.sh <SLACK_URL>
-```
-
-After the service has been installed, you will be able to view all Keptn Events in the Slack Workspace we have prepared for this HOT Day (please ask the instructors for an invite link to join the channel)
-
-## Self-healing in action
-
-Now it's time to deploy our next version of the simplenode service. This version meets all SLOs during the performance tests,
-but there is a hidden flag that causes the service to fail frequently while it is in production. This will be detected by Dynatrace, which will send a problem event to Keptn.
-Using our remediation.yaml file, we can tell Keptn how to automatically remediate problems of a certain type so we can keep the lights up in production.
-
-### Upload remediation file
-
-To tell Keptn what to do in case of a detected problem with our service, we will use a `remediation.yaml` file that looks as follows:
-
-```yaml
-remediations:
-- name: Response time degradation
-  actions:
-  - action: scaling
-    value: +2
-```
-
-By using this file, Keptn will react to problems that cause a **Response time degradation** (that might be caused by an increasing load to our service) with scaling up the number
-of replicas running our service. In this case, we will increase the replica count by 2 pods. To stay in line with the GitOps approach, we will store this file in the Git repository that holds
-the configuration for our service. This can be done using the following command:
-
-```
-cd ~/getting-started/keptn-onboarding
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
-```
-
-We can also add another SLO file (in this case to our production stage) to verify if our remediation action has been successful:
-
-```
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo-self-healing.yaml --resourceUri=slo.yaml
-```
-
-### Configure Dynatrace Problem Detection
-
-For the sake of the workshop, we will configure Dynatrace to detect Problems based on fixed thresholds. To do so, navigate to your Dynatrace Tenant in your browser,
-and go to *Settings -> Anomaly Detection -> Services*.
-
-Within this menu, select the option **Detect response time degradations using fixed thresholds**, set the limit to **1000ms**, and select **Medium** for the sensitivity (see the screenshot below).
-
-![](images/anomaly_detection.png)
-
-As a last configuration step, we will disable the Frequent Issue Detection to make the demo more reproducible. To do so, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**,
-and disable all switches found in this menu:
-
-![](images/disable-fid.png)
-
-### Deploy a new version
-
-To deploy the new artifact, we once again use the Keptn CLI to start the deployment process:
-
-```
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=4.0.0
-```
-
-After the new artifact has been deployed into production, we will generate some load on our newly deployed version. To do so, execute the following commands
-in your shell:
-
-```
-cd ~/getting-started/load-generation/bin
-./loadgenerator-linux "http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')"/api/cpuload
-```
-
-Next, navigate to your Dynatrace Tenant, go to **Transactions and Services**, and select the Management Zone **Keptn: simpleproject production**. 
-
-![](images/services_dt.png)
-
-Here you should see a service instance containing the `primary` deployment of our sample service:
-
-![](images/service_primary.png)
-
-Select this service, and you will be directed to the overview screen. On this screen, click on the Response time button:
-
-![](images/service_overview.png)
-
-This will direct you to a screen showing you a time series chart for the response time of our service:
-
-![](images/response_time_series.png)
-
-After some time, a problem will be detected in Dynatrace, due to the increase in response time caused by the heavy load we just created: 
-
-![](images/dt_problem.png)
-
-When this happens, a problem event will be 
-sent to Keptn, which will trigger a remediation action that we have defined in the `remediation.yaml` file. You can get an overview of the actions taken during that remediation using the Keptn's bridge:
-
-![](images/bridge_self_healing.png)
-
-As you can see in the screenshot, the problem event caused a remediation (scaling up the replicas of our service). After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an
-evaluation of the metrics in our `slo.yaml´ file. The evaluation of our service level objectives should be successful at this point since the load is now split among three instances of our service.
-Eventually, the Problem will also be closed in Dynatrace.
-
-In addition to automatically performing the remediation, Keptn also informs Dynatrace about the actions taken during this process. You can verify this by navigating to the 
-Service overview, and checking the events related to that service:
-
-![](images/dt_service_events.png)
-
-We can also verify the remediation action by investigating the time series chart for the response time of our service. 
-In this chart you will see a decrease in response time starting at the moment where Keptn deployed the additional instances of our service:
-
-![](images/dt_problem_closed.png)
-
-
-
-
-
-
-
-
+**Feel free to contribute or reach out to the Keptn team using a channel provided [here](https://github.com/keptn/community)**.
