@@ -39,6 +39,6 @@ application running in that stage. Each change made to the configuration will be
 
 ---
 
-:arrow_forward: [Next Lab: Deploying the simplenode service](../02_Deploying_the_simplenode_service)
+:arrow_forward: [Next Lab: Deploying the simplenode service](../02_Deploying_simplenode_service)
 
 :arrow_up_small: [Back to overview](https://github.com/keptn-workshops/getting-started#overview)
