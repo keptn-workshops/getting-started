@@ -1,58 +1,118 @@
+**Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-1. Now that the service has been onboarded, we can use Keptn to automatically generate a Dynatrace dashboard and management Zones for our project. To do so, execute
+At this point, we have a Keptn project created and the **simplenode** service onboarded to the project.
 
-    ```
-    keptn configure monitoring dynatrace --project=simpleproject
-    ```
+# Excercise 2: Deploying the Simplenode service
 
-    Afterwards, you can view your generated dashboard under https://<YOUR_DYNATRACE_TENANT>/#dashboards
+1. In this exercise, we will automatically configure Dynatrace for perfectly supporting the continous delivery journey our **simplenode** service has to go through. Additionally, testing files will be configured and Keptn's quality gate is set up. 
 
-1. At this point, it is time to set up our test files (we will use jmeter for testing), and our Service Level Objectives. After all, we do not want to blindly send artifacts into production, but want to ensure that our performance criteria are met:
+1. Then, we hit the trigger to launch the deployment of the **simplenode** service. 
 
-   ```
-   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-   keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/load.jmx
-   
-   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-   
-   keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
-   ```
-   
-1. Now, we will tell Keptn to use the **dynatrace-sli-service** as a value provider for our Service Level Indicators. We will do this using a ConfigMap:
+## Let's get ready for the Deployment
 
-   ```
-   kubectl apply -f lighthouse-config.yaml
-   ```
-1. We are now ready and can run our first deployment
-   
-   ```
-   keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
-   ```
-   
-   As the deployment runs you can watch the progress
-   
-   **a) through the Keptn's bridge**
-   ![](../images/keptn_bridge_events.png)
-   
-   **b) through Dynatrace events**
-   The Dynatrace Service has pushed events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage` and `keptn_deployment` tags:
-   ![](../images/dynatrace_events.png)
+### Configure Dynatrace 
 
-# View the simplenode service
+We can use Keptn to automatically generate a Dynatrace dashboard and management zones for our *simplenode* project. 
 
-To make the simplenode service accessible from outside the cluster, and to support blue/green deployments, Keptn automatically creates Istio VirtualServices that direct requests to certain URLs to the correct service instance. You can retrieve the URLs for the simplenode service for each stage as follows:
+* To create a Dynatrace **Dashboard** and **Management zones**, execute:
 
 ```
+keptn configure monitoring dynatrace --project=simpleproject
+```
+
+* Afterwards, you can view your generated Dashboard under: `https://<YOUR_DYNATRACE_TENANT>/#dashboards`
+
+### Configure Tests
+
+At this point, it is time to set up our test file. We will use JMeter for testing.
+
+* Please make sure that you are in the correct folder on your bastion host: 
+
+```console
+cd ~/getting-started/keptn-onboarding
+```
+
+* To active **functional tests** in *dev* stage, execute: 
+
+```
+keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+```
+<!--
+* To active **load tests** in *dev* stage, execute: 
+```
+keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/load.jmx
+```
+
+* To active **functional tests** in *staging* stage, execute: 
+```
+keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+```
+-->
+
+* To active **load tests** in *staging* stage, execute: 
+```
+keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+```
+
+### Activate Keptn's Quality Gate
+
+After all, we do not want to blindly send artifacts into production but want to ensure that our performance criteria are met. Therefore, we must first configure Service Level Objectives and then .
+
+* To add the **SLO** file to the **staging** stage: 
+
+```
+keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
+```
+
+* Now, we will tell Keptn to use the **dynatrace-sli-service** as a value provider for our Service Level Indicators. We will do this using a ConfigMap:
+
+```
+kubectl apply -f lighthouse-config.yaml
+```
+
+## Ready for the Deployment
+
+* We are now ready and can run our first deployment of the **simplenode** service. Therefore, execute the following command:
+   
+```
+keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
+```
+   
+:mag: As the deployment runs you can watch the progress, take a look into:
+
+**a) Keptn's bridge**
+![](../images/keptn_bridge_events.png)
+
+**b) Dynatrace**
+Keptn pushes events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage` and `keptn_deployment` tags:
+![](../images/dynatrace_events.png)
+
+# Result
+
+After a couple of minutes, the **simplenode** is deployed in your K8s cluster. You can retrieve the URLs for the simplenode service for each stage as follows:
+
+:heavy_check_mark: Dev stage: 
+```
 echo http://simplenode.simpleproject-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+```
+
+:heavy_check_mark: Staging stage: 
+```
 echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+```
+
+:heavy_check_mark: Production stage: 
+```
 echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-Navigate to the URLs to inspect your simplenode service. In the production namespace, you should receive an output similar to this:
+:mag: Navigate to the URLs to inspect your **simplenode** service. In the production namespace, you should receive an output similar to this:
+
+**TODO: IMAGE IS MISSING!!**
 
 ![](../images/simplenode-production.png)
 
+---
 
 [Previous Step: Onboarding simplenode service](../01_Onboarding_simplenode_service) :arrow_backward: :arrow_forward: [Next Step: Exploring quality gates](../03_Exploring_quality_gates)
 
