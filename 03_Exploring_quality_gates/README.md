@@ -4,6 +4,8 @@ At this point, the simplenode service has been deployed for the first time and t
 
 # Excercise 3: Exploring Keptn's Quality Gates
 
+When developing an application, sooner or later you need to update a service in a production environment. To conduct this in a controlled manner and without impacting end-user experience, the quality of the new service has to be ensured and adequate deployment strategies must be in place. For example, blue-green deployments are well-known strategies to roll out a new service version by also keeping the previous service version available if something goes wrong.
+
 1. In this exercise, deploy a version of the **simplenode** service that has a slower response time compared to the previous version. Since we have activated the quality gate, we expect that the weaker performance gets detected and the service will not be promoted to production.  
 
 1. Finally, we again deploy the previous version of the **simplenode** service expecting a passed through by the quality gate.
@@ -49,7 +51,7 @@ keptn send event new-artifact --project=simpleproject --service=simplenode --ima
 
 # Result
 
-Production is safe, with **Keptn's Quality Gate** in place. We have seen that a service with a bad performance will not be promoted to the production stage. 
+Production is safe with **Keptn's Quality Gate** in place. We have seen that a service with a bad performance will not be promoted to the production stage. 
 
 ---
 
