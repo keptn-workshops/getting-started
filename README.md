@@ -57,7 +57,6 @@ please follow the instructions depending on your provider.
 </p>
 </details>
 
-
 <details><summary>GitLab</summary>
 <p>
 
@@ -99,7 +98,7 @@ This workshop explores Keptn's quality gates using metrics from Dynatrace.
 In order to query the metrics, Keptn requires access to the Dynatrace API.
 Therefore, please follow the instructions:
 
-1. Create a Dynatrace API token
+1. Create a **Dynatrace API** token:
 
     Log in to your Dynatrace tenant and go to **Settings > Integration > Dynatrace API**. Then, create a new API token with the following permissions:
 
@@ -111,9 +110,11 @@ Therefore, please follow the instructions:
     - Capture request data
     - Real user monitoring JavaScript tag management
 
+    *Permissions of the token:*
+
     <img src="images/dt_api_token.png" width="500px"/>
 
-1. Create a Dynatrace PaaS token
+1. Create a **Dynatrace PaaS** token:
 
     Log in to your Dynatrace tenant, go to **Settings > Integration > Platform as a Service** and create a new PaaS token.
 
@@ -146,19 +147,16 @@ executing the following command on the Bastion host:
 The installation will take 5-10 minutes to perform.
 
 ## 4. Enable Dynatrace Monitoring
-For enabling Dynatrace monitoring, we will utilize the so-called `dynatrace-service`, which 
-can be installed as an add-on for Keptn.
-This service will 
+
+For enabling Dynatrace monitoring, we will utilize the so-called `dynatrace-service`, which can be installed as an add-on for Keptn.
+This service will:
 - deploy the *Dynatrace OneAgent* to gain monitoring insights for your entire cluster,
 - create *Auto-Tagging* rules which will be used by Keptn,
 - set up customized *Problem notifications* that are sent to Keptn,
 - create *Management zones* for your Keptn projects, and
 - create *Dashboards* for your Keptn projects.
     
-1. The `dynatrace-service` requires the **Dynatrace Tenant**, the **API Token**, and the **PaaS Token**
-as a Kubernetes secret.
-To create this secret, execute the following command after replacing the placeholders `<DT_API_TOKEN_PLACEHOLDER>`,
-`<DT_TENANT_PLACEHOLDER>`, and `<DT_PAAS_TOKEN_PLACEHOLDER>` with your credentials:
+1. The `dynatrace-service` requires the **Dynatrace Tenant**, the **API Token**, and the **PaaS Token** as a Kubernetes secret. To create this secret, execute the following command after replacing the placeholders `<DT_API_TOKEN_PLACEHOLDER>`, `<DT_TENANT_PLACEHOLDER>`, and `<DT_PAAS_TOKEN_PLACEHOLDER>` with your credentials:
 
     ```
     kubectl -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=<DT_API_TOKEN_PLACEHOLDER>" --from-literal="DT_TENANT=<DT_TENANT_PLACEHOLDER>" --from-literal="DT_PAAS_TOKEN=<DT_PAAS_TOKEN_PLACEHOLDER>"
@@ -190,7 +188,7 @@ During the workshop, we will use quality gates to ensure only artifacts that mee
 A Keptn service called `dynatrace-sli-service` 
 will retrieve the relevant *Service Level Indicators* (SLIs) from the new [Dynatrace Metrics API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
 
-1. Install the `dynatrace-sli-service` in your cluster by executing the following command:
+* Install the `dynatrace-sli-service` in your cluster by executing the following command:
 
     ```
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.0/deploy/service.yaml
@@ -204,17 +202,23 @@ an overview of projects, services and all events that are sent within Keptn.
 
 <img src="images/bridge_eap.png" width="600px"/>
 
-1. In the default installation of Keptn, the Bridge is not accessible via a public URL because
-it may contain sensitive information. 
-But for the purpose of this workshop, expose the Bridge by excuting the following command:
+In the default installation of Keptn, the Bridge is not accessible via a public URL because it may contain sensitive information. But for the purpose of this workshop, expose the Bridge by excuting the following command:
+
+* Please change the directory to: 
 
     ```
     cd ~/getting-started/keptn
-    ./exposeBridge.sh
-    cd ..
     ```
-    You should now be able to access the Keptns Bridge via the URL shown in the exposeBridge.sh output
-    ![](images/expose_bridge.png)
+
+* Execute the script `exposeBridge.sh`: 
+
+    ```
+    ./exposeBridge.sh
+    ```
+
+:mag: You should now be able to access the Keptn's Bridge via the URL shown in the exposeBridge.sh output:
+
+![](images/expose_bridge.png)
 
 
 # Hands-on Labs
