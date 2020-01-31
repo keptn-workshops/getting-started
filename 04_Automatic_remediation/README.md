@@ -55,7 +55,7 @@ As a last configuration step, we will disable the *Frequent Issue Detection* to 
 
   ![](../images/disable-fid.png)
 
-## Deploy of a new Simplenode version and Load generation
+## Deploy of a new Simplenode version and generate User Traffic 
 
 * To deploy the new artifact, we once again use the Keptn CLI to start the deployment process:
 
@@ -93,7 +93,7 @@ cd ~/getting-started/load-generation/bin
 
   ![](../images/response_time_series.png)
 
-* After some time, a problem will be detected in Dynatrace, due to the increase in response time caused by the heavy load we just created: 
+* After some time, a problem will be detected in Dynatrace due to the increase in response time caused by the heavy load we just created: 
 
   ![](../images/dt_problem.png)
 
@@ -110,7 +110,7 @@ sent to Keptn, which will trigger a remediation action that we have defined in t
 
 :heavy_check_mark: The evaluation of our service level objectives should be successful at this point since the load is now split among three instances of our service. 
 
-:heavy_check_mark: Eventually, the Problem will also be closed in Dynatrace.
+:heavy_check_mark: Eventually, the problem will also be closed in Dynatrace.
 
 :heavy_check_mark: In addition to automatically performing the remediation, Keptn also informs Dynatrace about the actions taken during this process. You can verify this by navigating to the service overview and checking the events related to that service:
 
