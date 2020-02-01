@@ -1,15 +1,15 @@
 <img src="images/perform_logo.png" width="100%"/>
 
-**Introduction to Autonomous Cloud with Keptn** workshop given @Dynatrace Perform 2020
+# Introduction to Autonomous Cloud with Keptn workshop given @Dynatrace Perform 2020
 
-# Overview
+## Overview
 In this workshop, you will get hands-on experience with the open-source framework [keptn](https://keptn.sh) and see how it can help you to manage your cloud-native applications on Kubernetes.
 
 * For a great workshop experience, we ask you to keep track of your completed tasks. Therefore, please open this [spreadsheet](https://docs.google.com/spreadsheets/d/1V1sRCdVdSlwzbYCTfcRKIAfkDw0lLckGpSREGlW3khM/edit?usp=sharing) and enter your name.
 
-# Pre-requisites
+## Pre-requisites
 
-## 1. Accounts
+### 1. Accounts
 
 1. **GKE Cluster** - You will get the access information during the workshop.
 1. **GitHub, GitLab, or Bitbucket** - Please use your account.
@@ -28,7 +28,7 @@ Dynatrace API token:
 Dynatrace PaaS token:
 ```
 
-## 2. Git Repo
+### 2. Git Repo
 Keptn installs its own Git repo for storing the configuration. In order to
 read and modify the configuration (e.g., Helm charts, SLIs, SLOs),
 Keptn requires a remote Git upstream.
@@ -93,7 +93,7 @@ please follow the instructions depending on your provider.
 </p>
 </details>
 
-## 3. Dynatrace Tokens
+### 3. Dynatrace Tokens
 This workshop explores Keptn's quality gates using metrics from Dynatrace.
 In order to query the metrics, Keptn requires access to the Dynatrace API.
 Therefore, please follow the instructions:
@@ -118,16 +118,16 @@ Therefore, please follow the instructions:
 
     Log in to your Dynatrace tenant, go to **Settings > Integration > Platform as a Service** and create a new PaaS token.
 
-# Setup
+## Setup
 
-## 1. Login on your Bastion host
+### 1. Login on your Bastion host
 For this lab, we have set up a Bastion host for each participant. 
 This host has all required CLI tools (e.g. **kubectl** and **keptn**) installed,
 so you don't have to install it on your machine. 
 
 * To log in on the Bastion host via your web browser, please follow the instructions provided by the lab instructors.
 
-## 2. Check out the workshop repository
+### 2. Check out the workshop repository
 
 * Please check out the workshop repository from GitHub by  
 executing the following command on the Bastion host:
@@ -137,7 +137,7 @@ executing the following command on the Bastion host:
     cd getting-started
     ```
 
-## 3. Install Keptn
+### 3. Install Keptn
 
 * Install the Keptn control plane into your GKE cluster by using the installed Keptn CLI.
 The installation process promotes you for for the Cluster Name, Cluster Zone, and GKE Project. Here, please use the the suggest values (i.e. confirm by pressing Enter).
@@ -147,7 +147,7 @@ The installation process promotes you for for the Cluster Name, Cluster Zone, an
     ```
 The installation will take 5-10 minutes to perform.
 
-## 4. Enable Dynatrace Monitoring
+### 4. Enable Dynatrace Monitoring
 
 For enabling Dynatrace monitoring, you will utilize the so-called `dynatrace-service`, which can be installed as an add-on for Keptn.
 This service will:
@@ -183,7 +183,7 @@ This service will:
     keptn configure monitoring dynatrace
     ```
 
-## 5. Install Dynatrace SLI Service
+### 5. Install Dynatrace SLI Service
 
 During the workshop, you will use quality gates to ensure only artifacts that meet performance requirements are pushed through to production.
 A Keptn service called `dynatrace-sli-service` 
@@ -195,7 +195,7 @@ will retrieve the relevant *Service Level Indicators* (SLIs) from the new [Dynat
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.0/deploy/service.yaml
     ```
 
-## 6. Expose Keptn's Bridge
+### 6. Expose Keptn's Bridge
 
 The [Keptn’s Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#early-access-version-of-keptn-s-bridge) provides 
 an overview of projects, services and all events that are sent within Keptn.
@@ -222,7 +222,7 @@ In the default installation of Keptn, the Bridge is not accessible via a public 
 ![](images/expose_bridge.png)
 
 
-# Hands-on Labs
+## Hands-on Labs
 
 After installing Keptn, you are now ready to explore to execute the following hands-on labs. They are based on each other, why it is important to complete the according to this order:
 
@@ -231,7 +231,7 @@ After installing Keptn, you are now ready to explore to execute the following ha
 1. Exploring quality gates: [Lab](./03_Exploring_quality_gates)
 1. Optional: Automatic remediation: [Lab](./04_Automatic_remediation)
 
-# Keptn Community
+## Keptn Community
 
 Join the Keptn community!
 
