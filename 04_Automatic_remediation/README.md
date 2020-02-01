@@ -28,19 +28,22 @@ remediations:
 :mag: By using this file, Keptn will react to problems that cause a **Response time degradation** with scaling up the number of replicas running our service. In this case, we will increase the replica count by 2 pods. 
 
 * Please make sure that you are in the correct folder on your bastion host: 
-```console
-cd ~/getting-started/keptn-onboarding
-```
+
+  ```console
+  cd ~/getting-started/keptn-onboarding
+  ```
 
 * To configure the remediation action for Keptn, execute the following command: 
-```console
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
-```
+
+  ```console
+  keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
+  ```
 
 * We can also add another SLO file (in this case to our production stage) to verify if our remediation action has been successful. Execute the following command: 
-```
-keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo-self-healing.yaml --resourceUri=slo.yaml
-```
+
+  ```
+  keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo-self-healing.yaml --resourceUri=slo.yaml
+  ```
 
 ## Configure Dynatrace Problem Detection
 
