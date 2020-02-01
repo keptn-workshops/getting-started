@@ -16,7 +16,7 @@ In this workshop, you will get hands-on experience with the open source framewor
 1. **Dynatrace** - You will get your Dynatrace Tenant credentials during the workshop.
 
 During the **Setup**, you will need Git and Dynatrace tokens.
-We recommend to copy the following lines into an editor and fill them out while working through
+We recommend to copy the following lines into an editor and fill them out while working through the
 pre-requisites:
 ```
 Git remote repo-URL:
