@@ -93,22 +93,19 @@ Keptn pushes events to those Dynatrace Service entities that match the `keptn_pr
 After a couple of minutes, the **simplenode** is deployed in your K8s cluster. You can retrieve the URLs for the simplenode service for each stage as follows:
 
 :heavy_check_mark: Dev stage: 
-
-    ```console
-    echo http://simplenode.simpleproject-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-    ```
+```console
+echo http://simplenode.simpleproject-dev.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+```
 
 :heavy_check_mark: Staging stage: 
-
-    ```console
-    echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-    ```
+```console
+echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+```
 
 :heavy_check_mark: Production stage: 
-
-    ```console
-    echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-    ```
+```console
+echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+```
 
 :mag: Navigate to the URLs to inspect your **simplenode** service. In the production namespace, you should see the following page:
 
