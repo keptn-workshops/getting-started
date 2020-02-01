@@ -75,7 +75,7 @@ To learn more about the `slo.yaml` file, go to [Specifications for Site Reliabil
 * For triggering your first deployment of the **simplenode** service, execute:
    
     ```console
-    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
+    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/keptnexamples/simplenodeservice --tag=5.0.1
     ```
    
 :mag: As the deployment runs you can watch the progress in the Keptn's Bridge and Dynatrace:

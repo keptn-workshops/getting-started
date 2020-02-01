@@ -17,7 +17,7 @@ To demonstrate the benefits of having quality gates, you will now deploy a versi
 * To trigger the deployment of this version, please execute the following command:
 
     ```console
-    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=2.0.0
+    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/keptnexamples/simplenodeservice --tag=5.0.2
     ```
 
 ### Promotion from Dev to Staging
@@ -61,7 +61,7 @@ Dynatrace analyzed a high response time for the `SimpleNodeJsService` in the `st
 * Finally, deploy a new version of the **simplenode** service, which fixed the response time issue and, eventually, will pass the quality gate:
 
     ```
-    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=4.0.0
+    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/keptnexamples/simplenodeservice --tag=5.0.4
     ```
 
 ## Result
