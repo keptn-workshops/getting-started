@@ -51,15 +51,15 @@ remediations:
 
 For the sake of the workshop, we will configure Dynatrace to detect problems based on fixed thresholds. 
 
-* In your Dynatrace Tenant and go to **Settings > Anomaly Detection > Services**.
+* In your Dynatrace Tenant, go to **Settings > Anomaly Detection > Services**.
 
 * Within this menu, select the option **Detect response time degradations using fixed thresholds**, set the limit to **1000ms**, and select **Medium** for the sensitivity (see the screenshot below).
 
   ![](../images/anomaly_detection.png)
 
-As a last configuration step, we will disable the *Frequent Issue Detection* to make the demo more reproducible.
+As a last configuration step, we will disable the *Frequent Issue Detection* to make the demo repeatable.
 
-* In your Dynatrace Tenant and go to **Settings -> Anomaly Detection -> Frequent Issue Detection**, and disable all switches found in this menu:
+* In your Dynatrace Tenant, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**, disable all switches found in this menu and click on **Save changes**:
 
   ![](../images/disable-fid.png)
 
