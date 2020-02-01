@@ -1,10 +1,10 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-At this point, we should have our initial setup complete. We should have a GKE cluster that is monitored by Dynatrace, and the full complement of Keptn services. 
+At this point, we should have our initial setup complete: We should have a GKE cluster where we installed Keptn and which is monitored by Dynatrace.
 
 # Excercise 1: Onboarding the Simplenode service
 
-1. In this exercise, we will create a Keptn project, which is a structural element that allows organizing your services. A project is stored as a repository and contains branches representing the multi-stage environment (e.g., dev, staging, and production stage). In other words, the separation of stage configurations is based on repository branches. To describe the stages, a `shipyard.yaml` file is needed that specifies the name, deployment strategy, test strategy, and remediation strategy.
+1. In this exercise, we will create a Keptn project, which is a structural element that allows organizing your services. A project is stored as a repository and contains branches representing the multi-stage environment (e.g., dev, staging, and production stage). In other words, the separation of stage configurations is based on repository branches. To describe the stages, a `shipyard.yaml` file is needed. This file specifies for each stage the name, deployment strategy, test strategy, and remediation strategy.
 
 2. After creating a project, the Keptn CLI allows creating new Keptn-managed services (i.e., to *onboard* services into Keptn). The onboarded services are organized in the before created project.
 
@@ -31,7 +31,7 @@ stages:
 cd ~/getting-started/keptn-onboarding
 ```
 
-* Execute the following command to create the project based on the `shipyard.yaml` file: 
+* Execute the following command to create a new project using the `shipyard.yaml` file (first replace the placeholders `GIT_USER`, `GIT_TOKEN`, and `GIT_REMOTE_URL` with your credentials):
 
 ```console
 keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
@@ -39,7 +39,8 @@ keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USE
     
 ## Onboard service Simplenode
 
-At this point, the project does not contain any deployable service yet. 
+At this point, the project does not contain any deployable service yet. For onboarding a new service,
+Keptn accepts (Helm charts)[https://helm.sh]. These Helm charts contain the required Kubernetes resources (e.g. a Deployment and a Service). 
 
 * Execute the following command to onboard the **simplenode** service to your project: 
 
