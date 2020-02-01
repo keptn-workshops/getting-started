@@ -5,7 +5,7 @@
 # Overview
 In this workshop, you will get hands-on experience with the open source framework [keptn](https://keptn.sh) and see how it can help you to manage your cloud-native applications on Kubernetes.
 
-1. For a great workshop experience, we ask you to keep track of your completed tasks. Therefore, please open this [spreadsheet](https://docs.google.com/spreadsheets/d/1V1sRCdVdSlwzbYCTfcRKIAfkDw0lLckGpSREGlW3khM/edit?usp=sharing) and enter your name.
+* For a great workshop experience, we ask you to keep track of your completed tasks. Therefore, please open this [spreadsheet](https://docs.google.com/spreadsheets/d/1V1sRCdVdSlwzbYCTfcRKIAfkDw0lLckGpSREGlW3khM/edit?usp=sharing) and enter your name.
 
 # Pre-requisites
 
@@ -125,11 +125,11 @@ For this lab, we have set up a Bastion host for each participant.
 This host has all required CLI tools (e.g. **kubectl** and **keptn**) installed,
 so you don't have to install it on your machine. 
 
-1. To log in on the Bastion host via your web browser, please follow the instructions provided by the lab instructors.
+* To log in on the Bastion host via your web browser, please follow the instructions provided by the lab instructors.
 
 ## 2. Check out the workshop repository
 
-1. Please check out the workshop repository from GitHub by  
+* Please check out the workshop repository from GitHub by  
 executing the following command on the Bastion host:
 
     ```
@@ -139,7 +139,7 @@ executing the following command on the Bastion host:
 
 ## 3. Install Keptn
 
-1. Install the Keptn control plane into your GKE cluster by executing the following command:
+* Install the Keptn control plane into your GKE cluster by executing the following command:
 
     ```
     keptn install --platform=gke
