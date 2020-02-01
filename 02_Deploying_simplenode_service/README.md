@@ -2,9 +2,9 @@
 
 At this point, we have a Keptn project created and the simplenode service onboarded to the project.
 
-# Excercise 2: Deploying the Simplenode service
+# Exercise 2: Deploying the Simplenode service
 
-1. In this exercise, we will automatically configure Dynatrace for perfectly supporting the continous delivery journey our **simplenode** service has to go through. Additionally, testing files will be configured and Keptn's quality gate is set up. 
+1. In this exercise, we will automatically configure Dynatrace for perfectly supporting the continuous delivery journey our **simplenode** service has to go through. Additionally, testing files will be configured and Keptn's quality gate is set up. 
 
 1. Then, we hit the trigger to launch the deployment of the **simplenode** service. 
 
@@ -55,7 +55,7 @@ keptn add-resource --project=simpleproject --service=simplenode --stage=staging 
 ## Activate Keptn's Quality Gate
 
 During the deployment process, the artifacts have to pass a quality gate in the `staging` environment to get promoted to the `production` environment. 
-This quality gates are spcified as *Service Level Objectives* (SLOs), i.e., in a so-called `slo.yaml` file.
+This quality gate is specified as *Service Level Objectives* (SLOs), i.e., in a so-called `slo.yaml` file.
 To learn more about the `slo.yaml` file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.2/sre.md).
 
 * To add the **SLO** file to the **staging** stage, execute: 
@@ -85,7 +85,7 @@ To learn more about the `slo.yaml` file, go to [Specifications for Site Reliabil
 
 **b) Dynatrace**
 
-Keptn pushes events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage` and `keptn_deployment` tags:
+Keptn pushes events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage`, and `keptn_deployment` tags:
 ![](../images/dynatrace_events.png)
 
 ## Result
