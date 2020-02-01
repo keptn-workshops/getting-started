@@ -7,15 +7,17 @@ an overload, or a wrong configuration.
 
 # Exercise 4: Self-healing in action
 
-In this exercise, we deploy our next version of the simplenode service:
-* this version meets all SLOs during the performance tests
-* but there is a hidden flag that causes the service to fail frequently while it is in production. 
-
-Dynatrace will detect this problem and will send a problem event to Keptn. Using predefined remediation actions, we can tell Keptn how to automatically remediate problems of a certain type so we can keep the lights up in production.
+In this exercise, we use the deployed Simplenode service, which passed the quality gates.
+However, this version of the Simplenode service has a hidden flag that causes the service to fail frequently while it is in production. 
+Dynatrace will detect this problem and will send a problem event to Keptn.
+Using predefined remediation actions, we can tell Keptn how to automatically remediate problems of certain problem types. 
+By this, we can implement a self-healing mechanism for our Simplenode service.
 
 ## Configure Remediation Actions
 
-To tell Keptn what to do in case of a detected problem with our service, we will use a `remediation.yaml` file that looks as follows:
+Keptn allows to configure remediation actions for different problem types.
+Therefore, Keptn uses a so-called `remediation.yaml` file, which contains a list of problems and their corresponding remediation actions.
+The `remediation.yaml` file used in this exercise looks as follows:
 
 ```yaml
 remediations:
@@ -27,7 +29,7 @@ remediations:
 
 :mag: By using this file, Keptn will react to problems that cause a **Response time degradation** with scaling up the number of replicas running our service. In this case, we will increase the replica count by 2 pods. 
 
-* Please make sure that you are in the correct folder on your bastion host: 
+* Please make sure that you are in the correct folder on your Bastion host:
 
   ```console
   cd ~/getting-started/keptn-onboarding
@@ -61,21 +63,15 @@ As a last configuration step, we will disable the *Frequent Issue Detection* to 
 
   ![](../images/disable-fid.png)
 
-## Deploy of a new Simplenode version and generate User Traffic 
+## Generate User Traffic for your Simplenode service
 
-* To deploy the new artifact, we once again use the Keptn CLI to start the deployment process:
+Next, we will generate load on our deployed Simplenode service by using a prepared script.
 
-```console
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=4.0.0
-```
+* Switch into the folder containing the load generator by executing the following command in your Bastion host:
 
-After the new artifact has been deployed into production, we will generate some load on our newly deployed version. 
-
-* Execute the following commands in your shell:
-
-```
-cd ~/getting-started/load-generation/bin
-```
+  ```
+  cd ~/getting-started/load-generation/bin
+  ```
 
 ```
 ./loadgenerator-linux "http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')"/api/cpuload

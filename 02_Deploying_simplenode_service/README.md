@@ -24,7 +24,7 @@ We can use Keptn to automatically generate a Dynatrace dashboard and management 
 
 Now, we set up the tests in our continuous delivery process. In this workshop, we will use JMeter for testing.
 
-* Please make sure that you are in the correct folder on your bastion host: 
+* Please make sure that you are in the correct folder on your Bastion host: 
 
     ```console
     cd ~/getting-started/keptn-onboarding
