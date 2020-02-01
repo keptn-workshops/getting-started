@@ -66,7 +66,7 @@ Dynatrace analyzed a high response time for the `SimpleNodeJsService` in staging
 
 ## Result
 
-Production is safe with **Keptn's Quality Gate** in place. We have seen that a service with a bad performance will not be promoted to the production stage. 
+The slow version was not promoted to the production environment because of the active **Keptn's Quality Gate** in place.
 
 ---
 
