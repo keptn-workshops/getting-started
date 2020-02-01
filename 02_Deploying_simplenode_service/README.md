@@ -78,9 +78,9 @@ To learn more about the `slo.yaml` file, go to [Specifications for Site Reliabil
     keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
     ```
    
-:mag: As the deployment runs you can watch the progress in teh Keptn's Bridge:
+:mag: As the deployment runs you can watch the progress in the Keptn's Bridge and Dynatrace:
 
-**a) Keptn's bridge**
+**a) Keptn's Bridge**
 ![](../images/keptn_bridge_events.png)
 
 **b) Dynatrace**
