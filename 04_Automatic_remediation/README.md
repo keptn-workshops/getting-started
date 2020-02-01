@@ -78,7 +78,7 @@ Next, you will generate load on your deployed **simplenode** service by using a 
   ./loadgenerator-linux "http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')"/api/cpuload
   ```
 
-## Follow the Scenario in Dynatrace
+## Follow the executed Remediation Action in Dynatrace
 
 * Navigate to your Dynatrace Tenant, go to **Transactions and Services**, and select the Management Zone **Keptn: simpleproject production**. 
 
