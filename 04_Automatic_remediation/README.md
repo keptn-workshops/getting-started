@@ -2,7 +2,7 @@
 
 In the previous lab, you have learned how Keptn can be used for continuous delivery including quality gates.
 However, even a deployed service can have issues that only arise in production and, hence, cannot be checked with the quality gates.
-For example, an unhealty state of the service can be caused by untested parts of the microservice that have issues,
+For example, an unhealthy state of the service can be caused by untested parts of the microservice that have issues,
 by an overload, or by a wrong configuration.
 
 # Exercise 4: Self-healing in action
@@ -15,7 +15,7 @@ By this, you can implement a self-healing mechanism for the **simplenode** servi
 
 ## Configure Remediation Actions
 
-Keptn allows to configure remediation actions for different problem types.
+Keptn allows configuring remediation actions for different problem types.
 Therefore, Keptn uses a so-called `remediation.yaml` file, which contains a list of problems and their corresponding remediation actions.
 The `remediation.yaml` file used in this exercise looks as follows:
 
@@ -106,7 +106,7 @@ Follow the events in the Keptn's Bridge, which have been triggered by the proble
 
   ![](../images/bridge_self_healing.png)
 
-* After the remediation action has been executed, there are 3 pods serving the **simplenode** service:
+* After the remediation action has been executed, 3 pods are serving the **simplenode** service:
 
     ```
     $ kubectl get pods -n simpleproject-production
