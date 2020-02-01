@@ -1,6 +1,6 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-At this point, the simplenode service has been deployed for the first time and the quality gate for staging has been activated by providing an SLO file for *staging*.
+At this point, the **simplenode** service has been deployed for the first time and the quality gate for staging has been activated by providing an SLO file for *staging*.
 
 # Exercise 3: Exploring Keptn's Quality Gates
 
@@ -10,9 +10,9 @@ When developing an application, sooner or later you need to update a service in 
 
 1. Finally, we again deploy the previous version of the **simplenode** service expecting a pass by the quality gate.
 
-## Deployment of a SLOW implementation of the Simplenode service
+## Deployment of a SLOW implementation of the simplenode service
 
-To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with terribly slow response time. 
+To demonstrate the benefits of having quality gates, we will now deploy a version of the **simplenode** service with terribly slow response time. 
 
 * To trigger the deployment of this version, please execute the following command:
 
@@ -55,7 +55,7 @@ Dynatrace analyzed a high response time for the `SimpleNodeJsService` in staging
 ![](../images/dynatrace_response_time.png)
 
 
-## Deployment of the previous Simplenode service 
+## Deployment of the previous simplenode service 
 
 
 * Finally, deploy a new version of the **simplenode** service, which fixed the response time issue and, eventually, will pass the quality gate:

@@ -1,17 +1,17 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
 In the previous lab, you have learned how Keptn can be used for continuous delivery including quality gates.
-However, even a deployed service can have issues that only arise in production.
+However, even a deployed service can have issues that only arise in production and, hence, cannot be checked with the quality gates.
 For example, an unhealty state of the service can be caused by untested parts of the microservice that have issues,
-an overload, or a wrong configuration.
+by an overload, or by a wrong configuration.
 
 # Exercise 4: Self-healing in action
 
-In this exercise, you use the deployed Simplenode service, which passed the quality gates.
-However, this version of the Simplenode service has a hidden flag that causes the service to fail frequently while it is in production. 
+In this exercise, you use the deployed **simplenode** service, which passed the quality gates.
+However, this version of the **simplenode** service has a hidden flag that causes the service to fail frequently while it is in production. 
 Dynatrace will detect this problem and will send a problem event to Keptn.
-Using predefined remediation actions, you can tell Keptn how to automatically remediate problems of certain problem types. 
-By this, you can implement a self-healing mechanism for the Simplenode service.
+Using predefined remediation actions, you can tell Keptn how to automatically remediate this problem. 
+By this, you can implement a self-healing mechanism for the **simplenode** service.
 
 ## Configure Remediation Actions
 
@@ -63,9 +63,9 @@ As a last configuration step, you will disable the *Frequent Issue Detection* to
 
   ![](../images/disable-fid.png)
 
-## Generate User Traffic for the Simplenode service
+## Generate User Traffic for the simplenode service
 
-Next, you will generate load on your deployed Simplenode service by using a prepared script.
+Next, you will generate load on your deployed **simplenode** service by using a prepared script.
 
 * Switch into the folder containing the load generator by executing the following command in your Bastion host:
 
@@ -73,6 +73,7 @@ Next, you will generate load on your deployed Simplenode service by using a prep
   cd ~/getting-started/load-generation/bin
   ```
 
+* To trigger the load generator script, execute:
   ```
   ./loadgenerator-linux "http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')"/api/cpuload
   ```
@@ -83,7 +84,7 @@ Next, you will generate load on your deployed Simplenode service by using a prep
 
   ![](../images/services_dt.png)
 
-* Here, you should see a service instance containing the `primary` deployment of your Simplenode service:
+* Here, you should see a service instance containing the `primary` deployment of your **simplenode** service:
 
   ![](../images/service_primary.png)
 

@@ -1,8 +1,8 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-At this point, we have a Keptn project created and the simplenode service onboarded to the project.
+At this point, we have a Keptn project created and the **simplenode** service onboarded to the project.
 
-# Exercise 2: Deploying the Simplenode service
+# Exercise 2: Deploying the simplenode service
 
 1. In this exercise, we will automatically configure Dynatrace for perfectly supporting the continuous delivery journey our **simplenode** service has to go through. Additionally, testing files will be configured and Keptn's quality gate is set up. 
 
@@ -90,7 +90,7 @@ Keptn pushes events to those Dynatrace Service entities that match the `keptn_pr
 
 ## Result
 
-After a couple of minutes, the **simplenode** is deployed in your K8s cluster. You can retrieve the URLs for the simplenode service for each stage as follows:
+After a couple of minutes, the **simplenode** is deployed in your K8s cluster. You can retrieve the URLs for the **simplenode** service for each stage as follows:
 
 :heavy_check_mark: Dev stage: 
 ```console
