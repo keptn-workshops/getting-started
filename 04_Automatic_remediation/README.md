@@ -117,15 +117,15 @@ Follow the events in the Keptn's Bridge, which have been triggered by the proble
 
 # Result
 
-:heavy_check_mark: As you can see in the Keptn's Bridge, the problem event caused a remediation (scaling up the replicas of your service). 
+:heavy_check_mark: As you can see in the Keptn's Bridge, the problem event triggerd a remediation action (i.e. a scale up of the replicas of your service). 
 
-:heavy_check_mark: After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an evaluation of objectives defined in your `slo.yaml´ file. 
+:heavy_check_mark: After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an evaluation of the objectives defined in your `slo.yaml` file. 
 
 :heavy_check_mark: The evaluation of your Service Level Objectives should be successful at this point since the load is now split among three instances of your service. 
 
 :heavy_check_mark: Eventually, the problem will also be closed in Dynatrace.
 
-:heavy_check_mark: In addition to automatically performing the remediation, Keptn also informs Dynatrace about the actions taken during this process. You can verify this by navigating to the service overview and checking the events related to that service:
+:heavy_check_mark: In addition to automatically performing the remediation, Keptn also informs Dynatrace about the actions taken during this remediation process. You can verify this by navigating to the service overview and checking the events related to that service:
 
   ![](../images/dt_service_events.png)
 
