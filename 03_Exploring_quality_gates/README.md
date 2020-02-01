@@ -45,7 +45,7 @@ As a result, the new artifact will not be promoted into the `production` stage. 
 
 **a) Keptn's Bridge**
 The Keptn's Bridge gives you a detailed view of the evaluation result (i.e. all SLIs values).
-This includes the response time metric, which caused the evaulation to fail.
+This includes the response time metric, which caused the evaluation to fail.
 
 ![](../images/bridge_quality_gate.png)
 
