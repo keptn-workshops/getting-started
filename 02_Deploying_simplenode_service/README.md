@@ -8,9 +8,7 @@ At this point, we have a Keptn project created and the simplenode service onboar
 
 1. Then, we hit the trigger to launch the deployment of the **simplenode** service. 
 
-## Let's get ready for the Deployment
-
-### Configure Dynatrace 
+<!-- ## Configure Dynatrace 
 
 We can use Keptn to automatically generate a Dynatrace dashboard and management zones for our *simplenode* project. 
 
@@ -20,9 +18,9 @@ We can use Keptn to automatically generate a Dynatrace dashboard and management 
     keptn configure monitoring dynatrace --project=simpleproject
     ```
 
-* Afterwards, you can view your generated Dashboard under: `https://<YOUR_DYNATRACE_TENANT>/#dashboards`
+* Afterwards, you can view your generated Dashboard under: `https://<YOUR_DYNATRACE_TENANT>/#dashboards` -->
 
-### Configure Tests
+## Configure Tests
 
 Now, we set up the tests in our continuous delivery process. In this workshop, we will use JMeter for testing.
 
@@ -54,27 +52,27 @@ keptn add-resource --project=simpleproject --service=simplenode --stage=staging 
     keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
     ```
 
-### Activate Keptn's Quality Gate
+## Activate Keptn's Quality Gate
 
 During the deployment process, the artifacts have to pass a quality gate in the `staging` environment to get promoted to the `production` environment. 
 This quality gates are spcified as *Service Level Objectives* (SLOs), i.e., in a so-called `slo.yaml` file.
 To learn more about the `slo.yaml` file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.2/sre.md).
 
-* To add the **SLO** file to the **staging** stage: 
+* To add the **SLO** file to the **staging** stage, execute: 
 
     ```console
     keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
     ```
 
-* Now, we will tell Keptn to use the **dynatrace-sli-service** as a value provider for our Service Level Indicators. We will do this using a ConfigMap:
+* To inform Keptn to use the **dynatrace-sli-service** as a metrics provider for the used Service Level Indicators (SLIs), execute:
 
     ```console
     kubectl apply -f lighthouse-config.yaml
     ```
 
-## Ready for the Deployment
+## Trigger the first Deployment
 
-* We are now ready and can run our first deployment of the **simplenode** service. Therefore, execute the following command:
+* For triggering our first deployment of the **simplenode** service, execute:
    
     ```console
     keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
@@ -90,7 +88,7 @@ To learn more about the `slo.yaml` file, go to [Specifications for Site Reliabil
 Keptn pushes events to those Dynatrace Service entities that match the `keptn_project`, `keptn_service`, `keptn_stage` and `keptn_deployment` tags:
 ![](../images/dynatrace_events.png)
 
-# Result
+## Result
 
 After a couple of minutes, the **simplenode** is deployed in your K8s cluster. You can retrieve the URLs for the simplenode service for each stage as follows:
 
