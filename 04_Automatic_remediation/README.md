@@ -1,8 +1,11 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-At this point, we have learned how Keptn can be used to avoid the deployment of a bad deployment. However, there can be situations when a service in production runs in an unhealthy for example by an overload or a wrong configuration.
+In the previous lab, we have learned how Keptn can be used for continuous delivery including quality gates.
+However, even a deployed service can have issues that only arise in production.
+For example, an unhealty state of the service can be caused by untested parts of the microservice that have issues,
+an overload, or a wrong configuration.
 
-# Excercise 4: Self-healing in action
+# Exercise 4: Self-healing in action
 
 In this exercise, we deploy our next version of the simplenode service:
 * this version meets all SLOs during the performance tests
