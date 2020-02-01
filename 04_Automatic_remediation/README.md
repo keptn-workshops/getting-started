@@ -5,7 +5,7 @@ However, even a deployed service can have issues that only arise in production a
 For example, an unhealthy state of the service can be caused by untested parts of the microservice that have issues,
 by an overload, or by a wrong configuration.
 
-# Exercise 4: Self-healing in action
+# Exercise 4: Automatic remediation actions with Keptn
 
 In this exercise, you use the deployed **simplenode** service, which passed the quality gates.
 However, this version of the **simplenode** service has a hidden flag that causes the service to fail frequently while it is in production. 
