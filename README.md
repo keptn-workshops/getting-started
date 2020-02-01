@@ -201,7 +201,7 @@ The [Keptn’s Bridge](https://keptn.sh/docs/0.6.0/reference/keptnsbridge/#early
 an overview of projects, services and all events that are sent within Keptn.
 <!-- When you access the Keptn’s bridge, all deployments of a new artifact will be listed in the left column. All events belonging to the deployment of an artifact can then be shown by clicking on one event. -->
 
-<img src="images/bridge_eap.png" width="600px"/>
+<img src="images/bridge_eap.png" width="800px"/>
 
 In the default installation of Keptn, the Bridge is not accessible via a public URL because it may contain sensitive information. But for this workshop, expose the Bridge by executing the following command:
 
