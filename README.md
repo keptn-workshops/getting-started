@@ -3,7 +3,7 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @Dynatrace Perform 2020
 
 # Overview
-In this workshop, you will get hands-on experience with the open source framework [keptn](https://keptn.sh) and see how it can help you to manage your cloud-native applications on Kubernetes.
+In this workshop, you will get hands-on experience with the open-source framework [keptn](https://keptn.sh) and see how it can help you to manage your cloud-native applications on Kubernetes.
 
 * For a great workshop experience, we ask you to keep track of your completed tasks. Therefore, please open this [spreadsheet](https://docs.google.com/spreadsheets/d/1V1sRCdVdSlwzbYCTfcRKIAfkDw0lLckGpSREGlW3khM/edit?usp=sharing) and enter your name.
 
@@ -12,7 +12,7 @@ In this workshop, you will get hands-on experience with the open source framewor
 ## 1. Accounts
 
 1. **GKE Cluster** - You will get the access information during the workshop.
-1. **GitHub, GitLab, or Bitbucket** - Please use your personal account.
+1. **GitHub, GitLab, or Bitbucket** - Please use your account.
 1. **Dynatrace** - You will get your Dynatrace Tenant credentials during the workshop.
 
 During the **Setup**, you will need Git and Dynatrace tokens.
@@ -202,7 +202,7 @@ an overview of projects, services and all events that are sent within Keptn.
 
 <img src="images/bridge_eap.png" width="600px"/>
 
-In the default installation of Keptn, the Bridge is not accessible via a public URL because it may contain sensitive information. But for the purpose of this workshop, expose the Bridge by excuting the following command:
+In the default installation of Keptn, the Bridge is not accessible via a public URL because it may contain sensitive information. But for this workshop, expose the Bridge by executing the following command:
 
 * Please change the directory to: 
 
