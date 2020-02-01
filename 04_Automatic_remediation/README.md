@@ -78,7 +78,7 @@ Next, you will generate load on your deployed **simplenode** service by using a 
   ./loadgenerator-linux "http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')"/api/cpuload
   ```
 
-## Follow the executed Remediation Action in Dynatrace
+## Follow the executed Remediation Action
 
 * Navigate to your Dynatrace Tenant, go to **Transactions and Services**, and select the Management Zone **Keptn: simpleproject production**. 
 
@@ -101,15 +101,25 @@ Next, you will generate load on your deployed **simplenode** service by using a 
   ![](../images/dt_problem.png)
 
 * When this happens, a problem event will be 
-sent to Keptn, which will trigger a remediation action that you have defined in the `remediation.yaml` file. You can get an overview of the actions taken during that remediation using the Keptn's bridge:
+sent to Keptn, which will trigger the `scaling` remediation action that you have defined in the `remediation.yaml` file.
+Follow the events in the Keptn's Bridge, which have been triggered by the problem:
 
   ![](../images/bridge_self_healing.png)
 
+* After the remediation action has been executed, there are 3 pods serving the **simplenode** service:
+
+    ```
+    $ kubectl get pods -n simpleproject-production
+    simplenode-primary-6dbd854774-9vhrz   2/2     Running   0          109m
+    simplenode-primary-6dbd854774-kd58t   2/2     Running   0          12m
+    simplenode-primary-6dbd854774-mhbnb   2/2     Running   0          12m
+    ```
+
 # Result
 
-:heavy_check_mark: As you can see in the screenshot, the problem event caused a remediation (scaling up the replicas of your service). 
+:heavy_check_mark: As you can see in the Keptn's Bridge, the problem event caused a remediation (scaling up the replicas of your service). 
 
-:heavy_check_mark: After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an evaluation of the metrics in your `slo.yaml´ file. 
+:heavy_check_mark: After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an evaluation of objectives defined in your `slo.yaml´ file. 
 
 :heavy_check_mark: The evaluation of your Service Level Objectives should be successful at this point since the load is now split among three instances of your service. 
 
