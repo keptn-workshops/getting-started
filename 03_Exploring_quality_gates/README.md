@@ -2,13 +2,13 @@
 
 At this point, the simplenode service has been deployed for the first time and the quality gate for staging has been activated by providing an SLO file for *staging*.
 
-# Excercise 3: Exploring Keptn's Quality Gates
+# Exercise 3: Exploring Keptn's Quality Gates
 
 When developing an application, sooner or later you need to update a service in a production environment. To conduct this in a controlled manner and without impacting end-user experience, the quality of the new service has to be ensured and adequate deployment strategies must be in place. For example, blue-green deployments are well-known strategies to roll out a new service version by also keeping the previous service version available if something goes wrong.
 
 1. In this exercise, deploy a version of the **simplenode** service that has a slower response time compared to the previous version. Since we have activated the quality gate, we expect that the weaker performance gets detected and the service will not be promoted to production.  
 
-1. Finally, we again deploy the previous version of the **simplenode** service expecting a passed through by the quality gate.
+1. Finally, we again deploy the previous version of the **simplenode** service expecting a pass by the quality gate.
 
 ## Deployment of a SLOW implementation of the Simplenode service
 
@@ -16,9 +16,9 @@ To demonstrate the benefits of having quality gates, we will now deploy a versio
 
 * To trigger the deployment of this version, please execute the following command:
 
-```console
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=2.0.0
-```
+    ```console
+    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=2.0.0
+    ```
 
 ### Promotion from Dev to Staging
 
@@ -28,9 +28,9 @@ This means that even though the version has a slow response time, it will be pro
 
 :mag: You can verify the deployment of the new version into `staging` by navigating to the URL of the service in your browser using the following URL:
 
-```console
-echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-```
+    ```console
+    echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+    ```
 
 ### Keptn's Quality Gate detects Performance leak - NO Promotion to Production!
 
@@ -45,11 +45,11 @@ As a result, the new artifact will not be promoted into the `production` stage. 
 
 * Finally, deploy the previous version of the **simplenode** service, which has to pass the quality gate:
 
-```
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
-```
+    ```
+    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
+    ```
 
-# Result
+## Result
 
 Production is safe with **Keptn's Quality Gate** in place. We have seen that a service with a bad performance will not be promoted to the production stage. 
 
