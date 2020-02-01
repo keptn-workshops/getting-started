@@ -56,7 +56,9 @@ keptn add-resource --project=simpleproject --service=simplenode --stage=staging 
 
 ### Activate Keptn's Quality Gate
 
-After all, we do not want to blindly send artifacts into production but want to ensure that our performance criteria are met. Therefore, we must first configure Service Level Objectives and then .
+During the deployment process, the artifacts have to pass a quality gate in the `staging` environment to get promoted to the `production` environment. 
+This quality gates are spcified as *Service Level Objectives* (SLOs), i.e., in a so-called `slo.yaml` file.
+To learn more about the `slo.yaml` file, go to [Specifications for Site Reliability Engineering with Keptn](https://github.com/keptn/spec/blob/0.1.2/sre.md).
 
 * To add the **SLO** file to the **staging** stage: 
 
