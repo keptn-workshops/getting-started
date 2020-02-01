@@ -107,9 +107,7 @@ echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n ke
 echo http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
 ```
 
-:mag: Navigate to the URLs to inspect your **simplenode** service. In the production namespace, you should receive an output similar to this:
-
-**TODO: IMAGE IS MISSING!!**
+:mag: Navigate to the URLs to inspect your **simplenode** service. In the production namespace, you should see the following page:
 
 ![](../images/simplenode-production.png)
 
