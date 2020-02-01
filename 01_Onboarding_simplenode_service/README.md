@@ -2,7 +2,7 @@
 
 At this point, we should have our initial setup complete: We should have a GKE cluster where we installed Keptn and which is monitored by Dynatrace.
 
-# Excercise 1: Onboarding the Simplenode service
+# Exercise 1: Onboarding the Simplenode service
 
 1. In this exercise, we will create a Keptn project, which is a structural element that allows organizing your services. A project is stored as a repository and contains branches representing the multi-stage environment (e.g., dev, staging, and production stage). In other words, the separation of stage configurations is based on repository branches. To describe the stages, a `shipyard.yaml` file is needed. This file specifies for each stage the name, deployment strategy, test strategy, and remediation strategy.
 
