@@ -139,7 +139,8 @@ executing the following command on the Bastion host:
 
 ## 3. Install Keptn
 
-* Install the Keptn control plane into your GKE cluster by executing the following command:
+* Install the Keptn control plane into your GKE cluster by using the installed Keptn CLI.
+The installation process promotes you for for the Cluster Name, Cluster Zone, and GKE Project. Here, please use the the suggest values (i.e. confirm by pressing Enter).
 
     ```
     keptn install --platform=gke
