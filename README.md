@@ -149,7 +149,7 @@ The installation will take 5-10 minutes to perform.
 
 ## 4. Enable Dynatrace Monitoring
 
-For enabling Dynatrace monitoring, we will utilize the so-called `dynatrace-service`, which can be installed as an add-on for Keptn.
+For enabling Dynatrace monitoring, you will utilize the so-called `dynatrace-service`, which can be installed as an add-on for Keptn.
 This service will:
 - deploy the *Dynatrace OneAgent* to gain monitoring insights for your entire cluster,
 - create *Auto-Tagging* rules which will be used by Keptn,
@@ -185,7 +185,7 @@ This service will:
 
 ## 5. Install Dynatrace SLI Service
 
-During the workshop, we will use quality gates to ensure only artifacts that meet our performance requirements are pushed through to production.
+During the workshop, you will use quality gates to ensure only artifacts that meet performance requirements are pushed through to production.
 A Keptn service called `dynatrace-sli-service` 
 will retrieve the relevant *Service Level Indicators* (SLIs) from the new [Dynatrace Metrics API](https://www.dynatrace.com/support/help/extend-dynatrace/dynatrace-api/environment-api/metric/).
 
@@ -224,7 +224,7 @@ In the default installation of Keptn, the Bridge is not accessible via a public 
 
 # Hands-on Labs
 
-After installing Keptn, we are now ready to explore to execute the following hands-on labs. They are based on each other, why it is important to complete the according to this order:
+After installing Keptn, you are now ready to explore to execute the following hands-on labs. They are based on each other, why it is important to complete the according to this order:
 
 1. Onboarding the simplenode service: [Lab](./01_Onboarding_simplenode_service)
 1. Deploying the simplenode service: [Lab](./02_Deploying_simplenode_service)

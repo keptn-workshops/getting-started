@@ -1,18 +1,18 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
-At this point, the **simplenode** service has been deployed for the first time and the quality gate for staging has been activated by providing an SLO file for *staging*.
+At this point, the **simplenode** service has been deployed for the first time and the quality gate in the `staging` environment has been activated by providing an SLO file.
 
 # Exercise 3: Exploring Keptn's Quality Gates
 
 When developing an application, sooner or later you need to update a service in a production environment. To conduct this in a controlled manner and without impacting end-user experience, the quality of the new service has to be ensured and adequate deployment strategies must be in place. For example, blue-green deployments are well-known strategies to roll out a new service version by also keeping the previous service version available if something goes wrong.
 
-1. In this exercise, deploy a version of the **simplenode** service that has a slower response time compared to the previous version. Since we have activated the quality gate, we expect that the weaker performance gets detected and the service will not be promoted to production.  
+1. In this exercise, you will deploy a version of the **simplenode** service that has a slower response time compared to the previous version. Since you have activated the quality gate, the weak performance gets detected and the quality gate will prevent a promotion of this artifact to the `production` environment.  
 
-1. Finally, we again deploy the previous version of the **simplenode** service expecting a pass by the quality gate.
+1. Finally, you will again deploy a version of the **simplenode** service which fixed the response time issue and, eventually, will pass the quality gate.
 
 ## Deployment of a SLOW implementation of the simplenode service
 
-To demonstrate the benefits of having quality gates, we will now deploy a version of the **simplenode** service with terribly slow response time. 
+To demonstrate the benefits of having quality gates, you will now deploy a version of the **simplenode** service with terribly slow response time. 
 
 * To trigger the deployment of this version, please execute the following command:
 
@@ -51,7 +51,7 @@ This includes the response time metric, which caused the evaluation to fail.
 
 **b) Dynatrace**
 
-Dynatrace analyzed a high response time for the `SimpleNodeJsService` in staging.
+Dynatrace analyzed a high response time for the `SimpleNodeJsService` in the `staging` environment.
 ![](../images/dynatrace_response_time.png)
 
 

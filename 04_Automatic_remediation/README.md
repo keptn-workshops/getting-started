@@ -41,7 +41,7 @@ remediations:
   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
   ```
 
-* You can also add another SLO file (in this case to your production stage) to verify if your remediation action has been successful. Execute the following command: 
+* You can also add another SLO file (in this case to your `production` stage) to verify if your remediation action has been successful. Execute the following command: 
 
   ```
   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo-self-healing.yaml --resourceUri=slo.yaml
