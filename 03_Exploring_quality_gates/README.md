@@ -58,10 +58,10 @@ Dynatrace analyzed a high response time for the `SimpleNodeJsService` in staging
 ## Deployment of the previous Simplenode service 
 
 
-* Finally, deploy the previous version of the **simplenode** service, which has to pass the quality gate:
+* Finally, deploy a new version of the **simplenode** service, which fixed the response time issue and, eventually, will pass the quality gate:
 
     ```
-    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
+    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=4.0.0
     ```
 
 ## Result
