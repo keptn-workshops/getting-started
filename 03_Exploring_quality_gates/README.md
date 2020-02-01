@@ -12,7 +12,7 @@ When developing an application, sooner or later you need to update a service in 
 
 ## Deployment of a SLOW implementation of the Simplenode service
 
-To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with a terribly slow response time. 
+To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with terribly slow response time. 
 
 * To trigger the deployment of this version, please execute the following command:
 
