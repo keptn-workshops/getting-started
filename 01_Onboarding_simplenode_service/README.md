@@ -27,15 +27,15 @@ stages:
 
 * Please make sure that you are in the correct folder on your bastion host: 
 
-```console
-cd ~/getting-started/keptn-onboarding
-```
+  ```console
+  cd ~/getting-started/keptn-onboarding
+  ```
 
 * Execute the following command to create a new project using the `shipyard.yaml` file (first replace the placeholders `GIT_USER`, `GIT_TOKEN`, and `GIT_REMOTE_URL` with your credentials):
 
-```console
-keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
-```    
+  ```console
+  keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USER --git-token=GIT_TOKEN --git-remote-url=GIT_REMOTE_URL
+  ```    
     
 ## Onboard service Simplenode
 
@@ -44,9 +44,9 @@ Keptn accepts [Helm charts](https://helm.sh). These Helm charts contain the requ
 
 * Execute the following command to onboard the **simplenode** service to your project: 
 
-```
-keptn onboard service simplenode --project=simpleproject --chart=./simplenode
-```
+  ```
+  keptn onboard service simplenode --project=simpleproject --chart=./simplenode
+  ```
 
 ## Result
 
