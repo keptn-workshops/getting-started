@@ -40,7 +40,7 @@ keptn create project simpleproject --shipyard=./shipyard.yaml --git-user=GIT_USE
 ## Onboard service Simplenode
 
 At this point, the project does not contain any deployable service yet. For onboarding a new service,
-Keptn accepts (Helm charts)[https://helm.sh]. These Helm charts contain the required Kubernetes resources (e.g. a Deployment and a Service). 
+Keptn accepts [Helm charts](https://helm.sh). These Helm charts contain the required Kubernetes resources (e.g. a Deployment and a Service). 
 
 * Execute the following command to onboard the **simplenode** service to your project: 
 
