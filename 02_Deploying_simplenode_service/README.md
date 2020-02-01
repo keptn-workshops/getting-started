@@ -16,27 +16,27 @@ We can use Keptn to automatically generate a Dynatrace dashboard and management 
 
 * To create a Dynatrace **Dashboard** and **Management zones**, execute:
 
-```console
-keptn configure monitoring dynatrace --project=simpleproject
-```
+    ```console
+    keptn configure monitoring dynatrace --project=simpleproject
+    ```
 
 * Afterwards, you can view your generated Dashboard under: `https://<YOUR_DYNATRACE_TENANT>/#dashboards`
 
 ### Configure Tests
 
-At this point, it is time to set up our test file. We will use JMeter for testing.
+Now, we set up the tests in our continuous delivery process. In this workshop, we will use JMeter for testing.
 
 * Please make sure that you are in the correct folder on your bastion host: 
 
-```console
-cd ~/getting-started/keptn-onboarding
-```
+    ```console
+    cd ~/getting-started/keptn-onboarding
+    ```
 
 * To active **functional tests** in *dev* stage, execute: 
 
-```console
-keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-```
+    ```console
+    keptn add-resource --project=simpleproject --service=simplenode --stage=dev --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
+    ```
 <!--
 * To active **load tests** in *dev* stage, execute: 
 ```
@@ -50,9 +50,9 @@ keptn add-resource --project=simpleproject --service=simplenode --stage=staging 
 -->
 
 * To active **load tests** in *staging* stage, execute: 
-```console
-keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-```
+    ```console
+    keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
+    ```
 
 ### Activate Keptn's Quality Gate
 
@@ -60,23 +60,23 @@ After all, we do not want to blindly send artifacts into production but want to 
 
 * To add the **SLO** file to the **staging** stage: 
 
-```console
-keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
-```
+    ```console
+    keptn add-resource --project=simpleproject --service=simplenode --stage=staging --resource=slo.yaml
+    ```
 
 * Now, we will tell Keptn to use the **dynatrace-sli-service** as a value provider for our Service Level Indicators. We will do this using a ConfigMap:
 
-```console
-kubectl apply -f lighthouse-config.yaml
-```
+    ```console
+    kubectl apply -f lighthouse-config.yaml
+    ```
 
 ## Ready for the Deployment
 
 * We are now ready and can run our first deployment of the **simplenode** service. Therefore, execute the following command:
    
-```console
-keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
-```
+    ```console
+    keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/bacherfl/simplenodeservice --tag=1.0.0
+    ```
    
 :mag: As the deployment runs you can watch the progress, take a look into:
 
