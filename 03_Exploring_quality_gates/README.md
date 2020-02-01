@@ -12,7 +12,7 @@ When developing an application, sooner or later you need to update a service in 
 
 ## Deployment of a SLOW implementation of the Simplenode service
 
-To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with terribly slow response time. 
+To demonstrate the benefits of having quality gates, we will now deploy a version of the simplenode service with a terribly slow response time. 
 
 * To trigger the deployment of this version, please execute the following command:
 
@@ -22,23 +22,38 @@ To demonstrate the benefits of having quality gates, we will now deploy a versio
 
 ### Promotion from Dev to Staging
 
-After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you used to create the `simpleproject` project, you will see that in this stage, only functional tests are executed. 
+After some time, this new version will be deployed into the `dev` stage. If you look into the `shipyard.yaml` file that you used to create the `simpleproject` project, you will see that in this stage only functional tests are executed. 
 
 This means that even though the version has a slow response time, it will be promoted into the `staging` environment because it is working as expected on a functional level. 
 
-:mag: You can verify the deployment of the new version into `staging` by navigating to the URL of the service in your browser using the following URL:
+:mag: You can verify the deployment of the new version into `staging` by navigating to the URL of the service:
 
-    ```console
-    echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
-    ```
+```console
+echo http://simplenode.simpleproject-staging.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')
+```
 
 ### Keptn's Quality Gate detects Performance leak - NO Promotion to Production!
 
-As soon as this version has been deployed into the `staging` environment, these performance tests for this service are executed. When those are finished, Keptn will evaluate them using Dynatrace as a data source. 
+As soon as this version has been deployed into the `staging` environment, the performance tests are executed.
+When those are finished, Keptn will evaluate them against the defined *Service Level Objectives* (SLOs) using Dynatrace as *Service Level Indicator* (SLI) provider. 
 
 :boom: At this point, it will detect that the response time of the service is too high and mark the evaluation of the performance tests as `failed`.
 
 As a result, the new artifact will not be promoted into the `production` stage. Additionally, the traffic routing within the `staging` stage will be automatically updated to send requests to the previous version of the service. 
+   
+:mag: You can explore the reason for the failed evaluation in Keptn's Bridge as well as Dynatrace:
+
+**a) Keptn's Bridge**
+The Keptn's Bridge gives you a detailed view of the evaluation result (i.e. all SLIs values).
+This includes the response time metric, which caused the evaulation to fail.
+
+![](../images/bridge_quality_gate.png)
+
+**b) Dynatrace**
+
+Dynatrace analyzed a high response time for the `SimpleNodeJsService` in staging.
+![](../images/dynatrace_response_time.png)
+
 
 ## Deployment of the previous Simplenode service 
 
