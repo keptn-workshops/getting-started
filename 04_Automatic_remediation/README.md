@@ -1,8 +1,8 @@
 **Introduction to Autonomous Cloud with Keptn** workshop given @[Dynatrace Perform 2020](https://https://www.dynatrace.com/perform-vegas//)
 
 In the previous lab, you have learned how Keptn can be used for continuous delivery including quality gates.
-However, even a deployed service can have issues that only arise in production and, hence, cannot be checked with the quality gates.
-For example, an unhealthy state of the service can be caused by untested parts of the microservice that have issues,
+However, even a deployed service can have issues that only arise in production and, hence, cannot be checked with a quality gate.
+For example, an unhealthy state of a service can be caused by untested parts of its implementation that cause issues 
 by an overload, or by a wrong configuration.
 
 # Exercise 4: Automatic remediation actions with Keptn
@@ -27,7 +27,7 @@ remediations:
     value: +2
 ```
 
-:mag: By using this file, Keptn will react to problems that cause a **Response time degradation** with scaling up the number of replicas running your service. In this case, the replica count will be increased by 2 pods. 
+**Note:** By using this file, Keptn will react to problems that cause a **Response time degradation** with scaling up the number of replicas running your service. In this case, the replica count will be increased by 2 pods. 
 
 * Please make sure that you are in the correct folder on your Bastion host:
 
@@ -35,13 +35,13 @@ remediations:
   cd ~/getting-started/keptn-onboarding
   ```
 
-* To configure the remediation action for Keptn, execute the following command: 
+* To configure the remediation action for Keptn, execute: 
 
   ```console
   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=remediation.yaml
   ```
 
-* You can also add another SLO file (in this case to your `production` stage) to verify if your remediation action has been successful. Execute the following command: 
+* Additionally, add another SLO file for your `production` stage to verify if your remediation action has been successful. Execute the following command: 
 
   ```
   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo-self-healing.yaml --resourceUri=slo.yaml
@@ -51,15 +51,15 @@ remediations:
 
 For the sake of the workshop, you will configure Dynatrace to detect problems based on fixed thresholds. 
 
-* In your Dynatrace Tenant, go to **Settings > Anomaly Detection > Services**.
+* In your Dynatrace Tenant, go to **Settings > Anomaly detection > Services**.
 
-* Within this menu, select the option **Detect response time degradations using fixed thresholds**, set the limit to **1000ms**, and select **Medium** for the sensitivity (see the screenshot below).
+* Within this menu, select the option **Detect response time degradations using fixed thresholds**, set the limit to **1000ms**, and select **Medium** for the sensitivity. Please take a look at the screenshot below:
 
   ![](../images/anomaly_detection.png)
 
 As a last configuration step, you will disable the *Frequent Issue Detection* to make the demo repeatable.
 
-* In your Dynatrace Tenant, go to **Settings -> Anomaly Detection -> Frequent Issue Detection**, disable all switches found in this menu and click on **Save changes**:
+* In your Dynatrace Tenant, go to **Settings > Anomaly detection > Frequent issue detection**, disable all switches found in this menu, and click on **Save changes**:
 
   ![](../images/disable-fid.png)
 
@@ -80,7 +80,7 @@ Next, you will generate load on your deployed **simplenode** service by using a 
 
 ## Follow the executed Remediation Action
 
-* Navigate to your Dynatrace Tenant, go to **Transactions and Services**, and select the Management Zone **Keptn: simpleproject production**. 
+* Navigate to your Dynatrace Tenant, go to **Transactions & services**, and select the Management Zone **Keptn: simpleproject production**. 
 
   ![](../images/services_dt.png)
 
@@ -88,7 +88,7 @@ Next, you will generate load on your deployed **simplenode** service by using a 
 
   ![](../images/service_primary.png)
 
-* Select this service, and you will be directed to the overview screen. On this screen, click on the Response time button:
+* Select this service, and you will be directed to the overview screen. On this screen, click on the *Response time* button:
 
   ![](../images/service_overview.png)
 
@@ -102,7 +102,7 @@ Next, you will generate load on your deployed **simplenode** service by using a 
 
 * When this happens, a problem event will be 
 sent to Keptn, which will trigger the `scaling` remediation action that you have defined in the `remediation.yaml` file.
-Follow the events in the Keptn's Bridge, which have been triggered by the problem:
+Follow the events in the Keptn's Bridge:
 
   ![](../images/bridge_self_healing.png)
 
@@ -117,11 +117,11 @@ Follow the events in the Keptn's Bridge, which have been triggered by the proble
 
 # Result
 
-:heavy_check_mark: As you can see in the Keptn's Bridge, the problem event triggerd a remediation action (i.e. a scale up of the replicas of your service). 
+:heavy_check_mark: As you can see in the Keptn's Bridge, the problem event triggerd a remediation action (i.e., a scale up of the replicas of your service). 
 
-:heavy_check_mark: After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an evaluation of the objectives defined in your `slo.yaml` file. 
+:heavy_check_mark: After the new replicas have been deployed, Keptn will wait for a certain amount of time (10 minutes), before triggering an evaluation of the objectives defined in your `slo.yaml` file for the production stage. 
 
-:heavy_check_mark: The evaluation of your Service Level Objectives should be successful at this point since the load is now split among three instances of your service. 
+:heavy_check_mark: The evaluation of your *Service Level Objectives* should be successful at this point since the load is now split among three instances of your service. 
 
 :heavy_check_mark: Eventually, the problem will also be closed in Dynatrace.
 
