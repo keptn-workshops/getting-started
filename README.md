@@ -195,7 +195,7 @@ will retrieve the relevant *Service Level Indicators* (SLIs) from the new [Dynat
 * To inform Keptn to use the `dynatrace-sli-service` as metrics provider for the used *Service Level Indicators* (SLIs), execute:
 
     ```console
-    kubectl apply -f lighthouse-config.yaml
+    kubectl apply -f keptn-onboarding/lighthouse-config.yaml
     ```
 
 ### 6. Expose Keptn's Bridge
