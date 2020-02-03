@@ -222,7 +222,7 @@ In the default installation of Keptn, the Bridge is not accessible via a public 
 
 * Execute the script `exposeBridge.sh`: 
 
-    ```
+    ```console
     ./exposeBridge.sh
     ```
 
