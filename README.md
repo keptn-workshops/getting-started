@@ -128,7 +128,7 @@ so you don't have to install it on your machine.
 
 * Please check out the workshop repository from GitHub by executing the following commands on the Bastion host:
 
-    ```
+    ```console
     git clone https://github.com/keptn-workshops/getting-started
     cd getting-started
     ```
@@ -138,7 +138,7 @@ so you don't have to install it on your machine.
 * Install the Keptn control plane into your GKE cluster by using the installed Keptn CLI.
 The installation process promts for the *Cluster Name*, *Cluster Zone*, and *GKE Project*. Here, please use the suggested values (i.e., confirm the suggestions by pressing *Enter*).
 
-    ```
+    ```console
     keptn install --platform=gke
     ```
 
@@ -156,13 +156,13 @@ This service will:
     
 1. The `dynatrace-service` requires the **Dynatrace Tenant**, the **API Token**, and the **PaaS Token** as a Kubernetes secret. To create this secret, execute the following command after replacing the placeholders `<DT_API_TOKEN_PLACEHOLDER>`, `<DT_TENANT_PLACEHOLDER>`, and `<DT_PAAS_TOKEN_PLACEHOLDER>` with your credentials:
 
-    ```
+    ```console
     kubectl -n keptn create secret generic dynatrace --from-literal="DT_API_TOKEN=<DT_API_TOKEN_PLACEHOLDER>" --from-literal="DT_TENANT=<DT_TENANT_PLACEHOLDER>" --from-literal="DT_PAAS_TOKEN=<DT_PAAS_TOKEN_PLACEHOLDER>"
     ```
 
 1. Install the `dynatrace-service` in your cluster by executing the following command:
 
-    ```
+    ```console
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.6.0/deploy/manifests/dynatrace-service/dynatrace-service.yaml
     ```
 
@@ -176,7 +176,7 @@ This service will:
 
 1. Instruct the `dynatrace-service` to install monitoring in your cluster by executing the following command:
 
-    ```
+    ```console
     keptn configure monitoring dynatrace
     ```
 
@@ -188,7 +188,7 @@ will retrieve the relevant *Service Level Indicators* (SLIs) from the new [Dynat
 
 * Install the `dynatrace-sli-service` in your cluster by executing the following command:
 
-    ```
+    ```console
     kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.3.0/deploy/service.yaml
     ```
 

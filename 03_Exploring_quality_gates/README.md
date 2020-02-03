@@ -62,7 +62,7 @@ Dynatrace detected an increase of the *Response time* for the `SimpleNodeJsServi
 * Finally, deploy a new version of the **simplenode** service, which contains a fix for the response time issue.
 This version eventually will pass the quality gate:
 
-    ```
+    ```console
     keptn send event new-artifact --project=simpleproject --service=simplenode --image=docker.io/keptnexamples/simplenodeservice --tag=5.0.4
     ```
 

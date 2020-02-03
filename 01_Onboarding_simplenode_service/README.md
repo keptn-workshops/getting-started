@@ -44,7 +44,7 @@ Keptn accepts [Helm charts](https://helm.sh). These Helm charts contain the requ
 
 * Execute the following command to onboard the **simplenode** service to your project: 
 
-  ```
+  ```console
   keptn onboard service simplenode --project=simpleproject --chart=./simplenode
   ```
 
