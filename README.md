@@ -130,6 +130,9 @@ so you don't have to install it on your machine.
 
     ```console
     git clone https://github.com/keptn-workshops/getting-started
+    ```
+
+    ```console
     cd getting-started
     ```
 
@@ -168,8 +171,11 @@ This service will:
 
 1. After installing the `dynatrace-service`, wait until the `dynatrace-service` pod in the `keptn` namespace has the status `Running`:
 
+    ```console
+    kubectl get pods -n keptn -w | grep dynatrace
     ```
-    $ kubectl get pods -n keptn -w | grep dynatrace
+
+    ```
     dynatrace-service-67bc686bc-vtpnx                                 1/1     Running   0          46h
     dynatrace-service-distributor-6d6d6c5478-krcws                    1/1     Running   0          47h
     ```
@@ -210,7 +216,7 @@ In the default installation of Keptn, the Bridge is not accessible via a public 
 
 * Please change the directory to: 
 
-    ```
+    ```console
     cd ~/getting-started/keptn
     ```
 
