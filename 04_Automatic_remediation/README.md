@@ -43,7 +43,7 @@ remediations:
 
 * Additionally, add another SLO file for your `production` stage to verify if your remediation action has been successful. Execute the following command: 
 
-  ```
+  ```console
   keptn add-resource --project=simpleproject --service=simplenode --stage=production --resource=slo-self-healing.yaml --resourceUri=slo.yaml
   ```
 
@@ -69,12 +69,12 @@ Next, you will generate load on your deployed **simplenode** service by using a 
 
 * Switch into the folder containing the load generator by executing the following command in your Bastion host:
 
-  ```
+  ```console
   cd ~/getting-started/load-generation/bin
   ```
 
 * To trigger the load generator script, execute:
-  ```
+  ```console
   ./loadgenerator-linux "http://simplenode.simpleproject-production.$(kubectl get cm keptn-domain -n keptn -o=jsonpath='{.data.app_domain}')"/api/cpuload
   ```
 
