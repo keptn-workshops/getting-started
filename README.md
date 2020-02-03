@@ -2,10 +2,7 @@
 
 # Introduction to Autonomous Cloud with Keptn workshop given @Dynatrace Perform 2020
 
-## Overview
 In this workshop, you will get hands-on experience with the open-source framework [Keptn](https://keptn.sh) and see how it can help you to manage your cloud-native applications on Kubernetes.
-
-* For a great workshop experience, we ask you to keep track of your completed tasks. Therefore, please open this [spreadsheet](https://docs.google.com/spreadsheets/d/1V1sRCdVdSlwzbYCTfcRKIAfkDw0lLckGpSREGlW3khM/edit?usp=sharing) and enter your name.
 
 ## Pre-requisites
 
