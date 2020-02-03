@@ -109,7 +109,10 @@ Follow the events in the Keptn's Bridge:
 * After the remediation action has been executed, 3 pods are serving the **simplenode** service:
 
     ```console
-    $ kubectl get pods -n simpleproject-production
+    kubectl get pods -n simpleproject-production
+    ```
+
+    ```
     simplenode-primary-6dbd854774-9vhrz   2/2     Running   0          109m
     simplenode-primary-6dbd854774-kd58t   2/2     Running   0          12m
     simplenode-primary-6dbd854774-mhbnb   2/2     Running   0          12m
