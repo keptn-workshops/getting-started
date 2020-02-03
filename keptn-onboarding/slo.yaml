@@ -25,18 +25,6 @@ objectives:
           - "<=2%"
   - sli: response_time_p50
   - sli: response_time_p90
-  #  - sli: svccalls_url_apiinvoke
-  #  - sli: dbcalls_url_apiinvoke
-  #  - sli: rt_test_invoke
-  #  - sli: svccalls_test_invoke
-  #  - sli: dbcalls_test_invoke
-  #  - sli: failurerate_test_invoke
-  #  pass:
-  #    - criteria:
-  #        - "<=2%"
-  #  warning:
-  #    - criteria:
-  #        - "<=5%"
 
 # The total score will be between 0 - 100. Define your pass and warning thresholds
 total_score:
