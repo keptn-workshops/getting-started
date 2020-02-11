@@ -24,7 +24,7 @@ spec:
           ports:
             - name: http
               protocol: TCP
-              containerPort: 80
+              containerPort: 8080
           env:
             - name: DT_CUSTOM_PROP
               value: "keptn_project={{ .Values.keptn.project }} keptn_service={{ .Values.keptn.service }} keptn_stage={{ .Values.keptn.stage }} keptn_deployment=canary"
